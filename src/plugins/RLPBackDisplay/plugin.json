@@ -1,0 +1,9 @@
+{
+  "id": "RLPBackDisplay",
+  "name": "RLP Back Display",
+  "author": "RLP",
+  "version": "1.0.0",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://www.rapidliquidprint.co/",
+  "dwcVersion": "auto"
+}

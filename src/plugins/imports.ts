@@ -65,4 +65,14 @@ export default initCollection(DwcPlugin, [
             "./RLP/index"
         )
     },
+	{
+        id: "RLPBackDisplay",
+        name: "RLP Back Display",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "RLPBackDisplay" */
+            "./RLPBackDisplay/index"
+        )
+    },
 ]);
