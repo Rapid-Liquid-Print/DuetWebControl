@@ -4,9 +4,9 @@
 			<button @click="toggleFullscreen">Toggle Fullscreen</button>
 			<div ref="fullscreenElement" class="fullscreen-content">
 				<pre class="pt-4">
-					File: {{ all.job.file?.fileName }}
-					Duration: {{ all.job.duration }}
-					Status: {{ all.state.status }}
+					File: {{ model.job.file?.fileName }}
+					Duration: {{ model.job.duration }}
+					Status: {{ modes[global.get("mode")] }}
 				</pre>
 			</div>
 		</div>
@@ -16,17 +16,27 @@
 <script>
 'use strict';
 
+import store from "@/store";
+import Vue from "vue";
 import {mapState, mapGetters} from 'vuex';
 
-export default {
+export default Vue.extend ({
 	computed: {
-		...mapGetters(['isConnected']),
-		...mapState('machine/model', {
-			all: (state) => state,
-			axes: (state) => state.move.axes,
-			global: (state) => state.global,
-			status: (state) => state.state.status,
-		}),
+		isConnected() {
+			return store.getters["isConnected"];
+		},
+		model() {
+			return store.state.machine.model;
+		},
+		axes() {
+			return store.state.machine.model.move.axes;
+		},
+		global() {
+			return store.state.machine.model.global;
+		},
+		status() {
+			return store.state.machine.model.state.status;
+		},
 		...mapState('settings', ['language']),
 	},
 	data() {
@@ -44,6 +54,7 @@ export default {
 			clickerEnabled: false,
 			resizeNum: null,
 			refreshBed: true,
+			modes: ["unhomed", "homing", "idle", "loading tank", "purging", "printing", "estop"],
 		};
 	},
 	methods: {
@@ -101,7 +112,7 @@ export default {
 		this.ready = true;
 	},
 	watch: {	},
-};
+});
 </script>
 
 <style scoped>

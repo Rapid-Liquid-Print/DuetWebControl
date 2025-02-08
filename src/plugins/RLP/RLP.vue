@@ -383,7 +383,7 @@
 
 import store from "@/store";
 import Vue from "vue";
-import ObjectModel, { Axis, Board, MachineMode, Probe, ProbeType } from "@duet3d/objectmodel";
+//import ObjectModel, { Axis, Board, MachineMode, Probe, ProbeType } from "@duet3d/objectmodel";
 import {mapState, mapGetters, mapActions} from 'vuex';
 import { mapMutations } from 'vuex';
 
@@ -420,7 +420,7 @@ export default Vue.extend ({
 			return store.state.machine.model.fans[0].actualValue;
 		},
 		light() {
-			return store.state.machine.model.fans[4].actualValue;
+			return store.state.machine.model.fans[2].actualValue;
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),
@@ -491,7 +491,7 @@ export default Vue.extend ({
 		};
 	},
 	methods: {
-		...mapActions('machine', ['download', 'getFileList', 'sendCode', 'warn', 'model']),
+		...mapActions('machine', ['download', 'getFileList', 'sendCode', 'warn']),// 'model']),
 		...mapMutations(['hideCodeReplyNotifications', 'showCodeReplyNotifications']),
 		log() {
 			console.log(process.env.BASE_URL);
