@@ -55,7 +55,7 @@ export function displayZ(value: number | Array<number> | string | null | undefin
 /**
  * Display a sensor value with optional unit from square brackets in the name
  * @param sensor Sensor
- * @returns 
+ * @returns
  */
 export function displaySensorValue(sensor: AnalogSensor) {
     if (sensor.name) {
@@ -112,6 +112,15 @@ export function displayMoveSpeed(speed: number | null | undefined) {
 		return display(speed * 60 / 25.4, 1, i18n.t("panel.settingsAppearance.unitInchSpeed"));
 	}
 	return display(speed, 1, i18n.t("panel.settingsAppearance.unitMmSpeed"));
+}
+
+/**
+ * Display an extrusion rate
+ * @param extrusion Extrusion in ml/min
+ * @returns Formatted move speed in ml/min
+ */
+export function displayExtrusionRate(extrusion: number | null | undefined) {
+	return display(extrusion, 1, 'ml/min'); // TODO: internationalise this
 }
 
 /**
@@ -237,5 +246,6 @@ Vue.prototype.$displayAxisPosition = displayAxisPosition;
 Vue.prototype.$displayZ = displayZ;
 Vue.prototype.$displaySize = displaySize;
 Vue.prototype.$displayMoveSpeed = displayMoveSpeed;
+Vue.prototype.$displayExtrusionRate = displayExtrusionRate;
 Vue.prototype.$displayTransferSpeed = displayTransferSpeed;
 Vue.prototype.$displayTime = displayTime;
