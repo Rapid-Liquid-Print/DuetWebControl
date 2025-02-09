@@ -5,7 +5,7 @@
 			<ul class="print-info" style="float: left;">
 				<li>
 					<span class="param-name">STATUS</span>
-					<span class="param-value">{{ modes[global.get("mode")] }}</span>
+					<span class="param-value">{{ status }}</span>
 				</li>
 
 				<li>
@@ -15,7 +15,6 @@
 
 				<li>
 					<span class="param-name">EXTRUDED AMOUNT</span>
-					<!--span class="param-value" v-for="extruder in extrusionData">{{ extruder.name }}: {{ extruder.value }}</span-->
 					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
 						{{ $t(["A","B","A2","B2"][index]) }}: {{ $display(model.move.extruders[index].position*0.05, 0) }}
 					</span>
@@ -27,7 +26,7 @@
 			<ul class="print-info" style="float: right;">
 				<li>
 					<span class="param-name">CURRENT JOB</span>
-					<span class="param-value">{{ $display(jobFile?.name) }}</span>
+					<span class="param-value">{{ $display(jobFile?.fileName) }}</span>
 				</li>
 
 				<li>
@@ -91,19 +90,6 @@ export default Vue.extend({
 		axes() {
 			return store.state.machine.model.move.axes;
 		},
-		/*extrusionData() {
-			const result = new Array();
-			for (var i = 0; i < this.extruders.length; i++) {
-				if (store.state.move == undefined || store.state.move.extruders == undefined) {
-					result.push({name: this.extruders[i], value: 'n/a'})
-				} else if (store.state.move.extruders[i].rawPosition == null)  {
-					result.push({name: this.extruders[i], value: 'n/a'})
-				} else {
-					result.push({name: this.extruders[i], value: store.state.move.extruders[i].rawPosition + 'ml'})
-				}
-			}
-			return result;
-		},*/
 		extruderData() {
 			const extrNum = store.state.machine.model.global.get("extruder_num");
 			return store.state.machine.model.move.extruders.slice(0, extrNum);
@@ -112,7 +98,7 @@ export default Vue.extend({
 			return store.state.machine.model.global;
 		},
 		status() {
-			return modes[global.get("mode")];
+			return this.modes[this.global.get("mode")];
 		},
 	},
 	data() {
@@ -130,7 +116,7 @@ export default Vue.extend({
 			clickerEnabled: false,
 			resizeNum: null,
 			refreshBed: true,
-			modes: ["unhomed", "homing", "idle", "loading tank", "purging", "printing", "estop",],
+			modes: ["unhomed", "homing", "idle", "moving", "estop", "purging", "status", "loading tank",],
 			extruders: ["A ", "B ", "A2", "B2"],
 		};
 	},
