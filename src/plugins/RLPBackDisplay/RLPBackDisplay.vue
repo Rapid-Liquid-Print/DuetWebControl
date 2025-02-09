@@ -15,7 +15,10 @@
 
 				<li>
 					<span class="param-name">EXTRUDED AMOUNT</span>
-					<span class="param-value" v-for="extruder in extrusionData">{{ extruder.name }}: {{ extruder.value }}</span>
+					<!--span class="param-value" v-for="extruder in extrusionData">{{ extruder.name }}: {{ extruder.value }}</span-->
+					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
+						{{ $t(["A","B","A2","B2"][index]) }}: {{ $display(model.move.extruders[index].position*0.05, 0) }}
+					</span>
 				</li>
 			</ul>
 
@@ -73,6 +76,9 @@ export default Vue.extend({
 		jobFile() {
 			return store.state.machine.model.job.file;
 		},
+		model() {
+			return store.state.machine.model;
+		},
 		currentMove() {
 			return store.state.machine.model.move.currentMove
 		},
@@ -85,7 +91,7 @@ export default Vue.extend({
 		axes() {
 			return store.state.machine.model.move.axes;
 		},
-		extrusionData() {
+		/*extrusionData() {
 			const result = new Array();
 			for (var i = 0; i < this.extruders.length; i++) {
 				if (store.state.move == undefined || store.state.move.extruders == undefined) {
@@ -97,6 +103,10 @@ export default Vue.extend({
 				}
 			}
 			return result;
+		},*/
+		extruderData() {
+			const extrNum = store.state.machine.model.global.get("extruder_num");
+			return store.state.machine.model.move.extruders.slice(0, extrNum);
 		},
 		global() {
 			return store.state.machine.model.global;
