@@ -1,7 +1,8 @@
 <template>
 	<div style="min-height: 33vh;">
 		<button @click="toggleFullscreen">Toggle Fullscreen</button>
-		<div ref="fullscreenElement" class="fullscreen-content">
+		<div ref="fullscreenElement" class="fullscreen-content" :class="statusCategory">
+			<div class="glowing-border"></div>
 			<ul class="print-info" style="float: left;">
 				<li>
 					<span class="param-name">STATUS</span>
@@ -104,6 +105,9 @@ export default Vue.extend({
 		status() {
 			return this.modes[this.global.get("mode")];
 		},
+		statusCategory() {
+			return this.modeCategories[this.global.get("mode")];
+		},
 	},
 	data() {
 		return {
@@ -121,6 +125,7 @@ export default Vue.extend({
 			resizeNum: null,
 			refreshBed: true,
 			modes: ["unhomed", "homing", "idle", "moving", "estop", "purging", "status", "loading tank",],
+			modeCategories: ["waiting", "waiting", "waiting", "moving", "problem", "moving", "waiting", "waiting",],
 			extruders: ["A ", "B ", "A2", "B2"],
 		};
 	},
@@ -149,7 +154,7 @@ export default Vue.extend({
 					document.msExitFullscreen();
 				}
 			}
-			setTimeout(() => this.toggleJobNameAnimation(), 200); // Give the full screen time to settle
+			this.toggleJobNameAnimation();
 		},
 		async refresh() {
 			if (!this.isConnected) {
@@ -164,10 +169,11 @@ export default Vue.extend({
 			}
 		},
 		toggleJobNameAnimation() {
-			const elem = this.$refs.fileNameBox;
-			const elemParent = elem.parentElement;
-			elemParent.classList.toggle('animating', elem.getBoundingClientRect().width > elemParent.getBoundingClientRect().width)
-			console.log('elem: ', elem.getBoundingClientRect().width, ', elem parent: ', elemParent.getBoundingClientRect().width)
+			setTimeout(() => {
+				const elem = this.$refs.fileNameBox;
+				const elemParent = elem.parentElement;
+				elemParent.classList.toggle('animating', elem.getBoundingClientRect().width > elemParent.getBoundingClientRect().width)
+			}, 200);
 		},
 	},
 	activated() {
@@ -187,7 +193,7 @@ export default Vue.extend({
 			// https://stackoverflow.com/questions/9454125/javascript-request-fullscreen-is-unreliable
 			// TODO: See whether this applies when built for production
 			// TODO: Consider wrapping the auto-fullscreen request into a href call: https://stackoverflow.com/a/10074378
-			this.toggleFullscreen(); // Automatically trigger fullscreen when the page renders
+			// this.toggleFullscreen(); // Automatically trigger fullscreen when the page renders
 		});
 		this.ready = true;
 	},
@@ -210,7 +216,43 @@ export default Vue.extend({
 	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
 	font-size: 16px;
+	overflow: hidden;
 }
+
+.glowing-border {
+	position: absolute;
+	width: 100%;
+	height: calc(100% + 20px);
+	animation: pulse-color 6s infinite linear;
+}
+
+.fullscreen-content.waiting {
+	background-color: #fbf9f2;
+	--pulse-color: #ffe790;
+}
+
+.fullscreen-content.moving {
+	background-color: #f4f9ff;
+	--pulse-color: #3d8dff;
+}
+
+.fullscreen-content.problem {
+	background-color: #fffafa;
+	--pulse-color: #d8361d;
+}
+
+@keyframes pulse-color {
+	0% {
+		box-shadow: inset 20px 0px 20px 0px var(--pulse-color), inset -20px 0px 20px 0px var(--pulse-color), inset 0px 20px 20px 0px var(--pulse-color);
+	}
+	50% {
+		box-shadow: inset 15px 0px 20px 0px var(--pulse-color), inset -15px 0px 2cap 0px var(--pulse-color), inset 0px 15px 20px 0px var(--pulse-color);
+	}
+	100% {
+		box-shadow: inset 20px 0px 20px 0px var(--pulse-color), inset -20px 0px 20px 0px var(--pulse-color), inset 0px 20px 20px 0px var(--pulse-color);
+	}
+}
+
 
 .tank-outline {
 	position: absolute;
@@ -220,6 +262,7 @@ export default Vue.extend({
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%, 0);
+	box-shadow: 0 0 10px 10px white;
 }
 
 ul.print-info {
