@@ -1,8 +1,8 @@
 <template>
 	<div style="min-height: 33vh;">
 		<button @click="toggleFullscreen">Toggle Fullscreen</button>
-		<div ref="fullscreenElement" class="fullscreen-content">
-			<div class="glowing-border" :class="statusCategory"></div>
+		<div ref="fullscreenElement" class="fullscreen-content" :class="statusCategory">
+			<div class="glowing-border"></div>
 			<ul class="print-info" style="float: left;">
 				<li>
 					<span class="param-name">STATUS</span>
@@ -193,7 +193,7 @@ export default Vue.extend({
 			// https://stackoverflow.com/questions/9454125/javascript-request-fullscreen-is-unreliable
 			// TODO: See whether this applies when built for production
 			// TODO: Consider wrapping the auto-fullscreen request into a href call: https://stackoverflow.com/a/10074378
-			this.toggleFullscreen(); // Automatically trigger fullscreen when the page renders
+			// this.toggleFullscreen(); // Automatically trigger fullscreen when the page renders
 		});
 		this.ready = true;
 	},
@@ -211,7 +211,7 @@ export default Vue.extend({
 .fullscreen-content {
 	width: 100%;
 	min-height: 600px;
-	background-color: #000000;
+	background-color: #f4f4f4;
 	position: relative;
 	font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
 	font-weight: 400;
@@ -226,13 +226,18 @@ export default Vue.extend({
 	animation: pulse-color 6s infinite linear;
 }
 
-.moving {
-	--pulse-color: #731dd8;
+.fullscreen-content.waiting {
+	background-color: #fbf9f2;
+	--pulse-color: #ffe790;
 }
-.glowing-border.waiting {
-	--pulse-color: #e3f31f;
+
+.fullscreen-content.moving {
+	background-color: #f4f9ff;
+	--pulse-color: #3d8dff;
 }
-.glowing-border.problem {
+
+.fullscreen-content.problem {
+	background-color: #fffafa;
 	--pulse-color: #d8361d;
 }
 
@@ -257,6 +262,7 @@ export default Vue.extend({
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%, 0);
+	box-shadow: 0 0 10px 10px white;
 }
 
 ul.print-info {
@@ -271,19 +277,19 @@ li {
 }
 
 li .param-name {
-	color: #aaaaaa;
+	color: #888888;
 	display: inline-block;
 }
 
 li .param-value {
-	color: #eeeeee;
+	color: #333333;
 	display: block;
 	margin-left: 20px;
 }
 
 li::before {
 	display: inline-block;
-	background-color: #aaaaaa;
+	background-color: #888888;
 	margin-right: 8px;
 	width: 12px;
 	height: 12px;
