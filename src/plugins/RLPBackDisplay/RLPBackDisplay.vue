@@ -85,7 +85,7 @@ export default Vue.extend({
 			return store.state.machine.model.job.timesLeft.file;
 		},
 		timeSoFar() {
-			return isPrinting(store.state.machine.model.state.status) ? store.state.machine.model.job.duration : store.state.machine.model.job.lastDuration;
+			return store.state.machine.model.job.duration;
 		},
 		axes() {
 			return store.state.machine.model.move.axes;
