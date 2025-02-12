@@ -200,14 +200,14 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap");
 
 .fullscreen-content {
 	width: 100%;
 	min-height: 600px;
 	background-color: #f4f4f4;
 	position: relative;
-	font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+	/*font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;*/
+	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
 	font-size: 16px;
 }
