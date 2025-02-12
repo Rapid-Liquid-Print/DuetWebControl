@@ -724,7 +724,11 @@
       "unitInchSpeed": "ipm",
       "unitInches": "inches",
       "unitMm": "mm",
-      "unitMmSpeed": "mm/sec"
+      "unitMmSpeed": "mm/sec",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "ons",
+      "unitOunceSpeed": "onspm"
     },
     "settingsBehaviour": {
       "behaviourJobStart": "Schakel niet automatisch over naar Statuspaneel bij het starten van de taak",

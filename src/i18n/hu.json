@@ -722,6 +722,10 @@
       "unitMm": "mm",
       "unitInchSpeed": "ipm",
       "unitMmSpeed": "mm/s",
+      "unitOunceSpeed": "ozpm",
+      "unitMlSpeed": "ml/min",
+      "unitMl": "ml",
+      "unitOunce": "oz",
       "singleBedControl": "Csoportos asztal vezérlés",
       "groupTools": "Azonos szerszámok csoportosítása",
       "singleChamberControl": "Csoportos kamra vezérlés"

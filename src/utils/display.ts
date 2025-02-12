@@ -116,11 +116,34 @@ export function displayMoveSpeed(speed: number | null | undefined) {
 
 /**
  * Display an extrusion rate
- * @param extrusion Extrusion in ml/min
- * @returns Formatted move speed in ml/min
+ * @param extrusion Extrusion in mm/s
+ * @returns Formatted extrusion speed in ml/min or oz/min
  */
 export function displayExtrusionRate(extrusion: number | null | undefined) {
-	return display(extrusion, 1, 'ml/min'); // TODO: internationalise this
+	if (extrusion === null || extrusion === undefined) {
+		return i18n.t("generic.noValue");
+	}
+	// 1 "mm" of filament extrusion corresponds to 1 rotation of the pump, which is 0.05mL
+	if (typeof extrusion === "number" && store.state.settings.displayUnits === UnitOfMeasure.imperial) {
+		return display(extrusion * 0.05 * 60 / 28.4, 1, i18n.t("panel.settingsAppearance.unitOunceSpeed"));
+	}
+	return display(extrusion * 0.05 * 60, 1, i18n.t("panel.settingsAppearance.unitMlSpeed"));
+}
+
+/**
+ * Display a volume
+ * @param extrusion Volume in mL
+ * @returns Formatted extrusion speed in ml/min or oz/min
+ */
+export function displayVolume(extrusion: number | null | undefined) {
+	if (extrusion === null || extrusion === undefined) {
+		return i18n.t("generic.noValue");
+	}
+	// 1 "mm" of filament extrusion corresponds to 1 rotation of the pump, which is 0.05mL
+	if (typeof extrusion === "number" && store.state.settings.displayUnits === UnitOfMeasure.imperial) {
+		return display(extrusion * 0.05 / 28.4, 1, i18n.t("panel.settingsAppearance.unitOunce"));
+	}
+	return display(extrusion * 0.05, 1, i18n.t("panel.settingsAppearance.unitMl"));
 }
 
 /**
@@ -245,6 +268,7 @@ Vue.prototype.$display = display;
 Vue.prototype.$displayAxisPosition = displayAxisPosition;
 Vue.prototype.$displayZ = displayZ;
 Vue.prototype.$displaySize = displaySize;
+Vue.prototype.$displayVolume = displayVolume;
 Vue.prototype.$displayMoveSpeed = displayMoveSpeed;
 Vue.prototype.$displayExtrusionRate = displayExtrusionRate;
 Vue.prototype.$displayTransferSpeed = displayTransferSpeed;

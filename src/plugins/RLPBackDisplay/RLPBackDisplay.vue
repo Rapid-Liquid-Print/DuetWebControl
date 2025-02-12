@@ -10,13 +10,13 @@
 
 				<li>
 					<span class="param-name">TOTAL PART VOLUME</span>
-					<span class="param-value">??? ml</span>
+					<span class="param-value">{{ $displayVolume(undefined, 0) }}</span>
 				</li>
 
 				<li>
 					<span class="param-name">EXTRUDED AMOUNT</span>
 					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
-						{{ $t(["A","B","A2","B2"][index]) }}: {{ $display(model.move.extruders[index].position*0.05, 0) }}
+						{{ ["A","B","A2","B2"][index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
 					</span>
 				</li>
 			</ul>
@@ -26,7 +26,11 @@
 			<ul class="print-info" style="float: right;">
 				<li>
 					<span class="param-name">CURRENT JOB</span>
-					<span class="param-value">{{ $display(jobFile?.fileName) }}</span>
+					<span class="param-value animation-wrapper">
+						<span class="animated-text" ref="fileNameBox">
+							{{ $display(jobFile?.fileName) }}
+						</span>
+					</span>
 				</li>
 
 				<li>
@@ -85,7 +89,7 @@ export default Vue.extend({
 			return store.state.machine.model.job.timesLeft.file;
 		},
 		timeSoFar() {
-			return isPrinting(store.state.machine.model.state.status) ? store.state.machine.model.job.duration : store.state.machine.model.job.lastDuration;
+			return store.state.machine.model.job.duration;
 		},
 		axes() {
 			return store.state.machine.model.move.axes;
@@ -145,6 +149,7 @@ export default Vue.extend({
 					document.msExitFullscreen();
 				}
 			}
+			setTimeout(() => this.toggleJobNameAnimation(), 200); // Give the full screen time to settle
 		},
 		async refresh() {
 			if (!this.isConnected) {
@@ -158,12 +163,20 @@ export default Vue.extend({
 				return;
 			}
 		},
+		toggleJobNameAnimation() {
+			const elem = this.$refs.fileNameBox;
+			const elemParent = elem.parentElement;
+			elemParent.classList.toggle('animating', elem.getBoundingClientRect().width > elemParent.getBoundingClientRect().width)
+			console.log('elem: ', elem.getBoundingClientRect().width, ', elem parent: ', elemParent.getBoundingClientRect().width)
+		},
 	},
 	activated() {
 		this.isActive = true;
+		this.toggleJobNameAnimation()
 	},
 	deactivate() {
 		this.isActive = false;
+		this.toggleJobNameAnimation()
 	},
 	async mounted() {
 		if (this.isConnected) {
@@ -178,7 +191,11 @@ export default Vue.extend({
 		});
 		this.ready = true;
 	},
-	watch: {},
+	watch: {
+		jobFile() {
+			this.toggleJobNameAnimation();
+		}
+	},
 });
 </script>
 
@@ -224,7 +241,7 @@ li .param-name {
 li .param-value {
 	color: #333333;
 	display: block;
-  margin-left: 20px;
+	margin-left: 20px;
 }
 
 li::before {
@@ -234,5 +251,32 @@ li::before {
 	width: 12px;
 	height: 12px;
 	content: "";
+}
+
+.animation-wrapper {
+	position: relative;
+	padding-bottom: 24px; /* compensate for the animated text because it is absolutely positioned & so its height is not considered */
+	overflow: hidden;
+}
+
+.animated-text {
+	position: absolute;
+  animation: 10s backandforth ease-in-out infinite paused;
+  white-space: nowrap;
+}
+
+.animation-wrapper.animating .animated-text {
+	animation-play-state: running;
+}
+
+@keyframes backandforth {
+	0%, 20%, 95%, 100% {
+		left: 0%;
+		transform: translate(0, 0);
+	}
+	60%, 75% {
+		left: 100%;
+		transform: translate(-100%, 0);
+	}
 }
 </style>

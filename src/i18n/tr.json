@@ -723,6 +723,10 @@
       "unitInches": "inç",
       "unitMm": "mm",
       "unitMmSpeed": "mm/sn",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "Tek kişilik yatak kontrolü",
       "groupTools": "Grup özdeş araçlar",
       "singleChamberControl": "Tek bölmeli kontrol"

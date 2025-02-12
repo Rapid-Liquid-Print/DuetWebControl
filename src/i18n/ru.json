@@ -723,6 +723,10 @@
       "unitInches": "дюймы",
       "unitMm": "мм",
       "unitMmSpeed": "мм/с",
+      "unitMl": "мл",
+      "unitMlSpeed": "мл/мин",
+      "unitOunce": "унция",
+      "unitOunceSpeed": "унция в минуту",
       "singleBedControl": "Раздельное управление столами",
       "groupTools": "Сгруппировать одинаковые инструменты",
       "singleChamberControl": "Раздельное управление термокамерами"
