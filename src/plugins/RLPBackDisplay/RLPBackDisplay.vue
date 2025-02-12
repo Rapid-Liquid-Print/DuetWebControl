@@ -2,6 +2,7 @@
 	<div style="min-height: 33vh;">
 		<button @click="toggleFullscreen">Toggle Fullscreen</button>
 		<div ref="fullscreenElement" class="fullscreen-content">
+			<div class="glowing-border" :class="statusCategory"></div>
 			<ul class="print-info" style="float: left;">
 				<li>
 					<span class="param-name">STATUS</span>
@@ -104,6 +105,9 @@ export default Vue.extend({
 		status() {
 			return this.modes[this.global.get("mode")];
 		},
+		statusCategory() {
+			return this.modeCategories[this.global.get("mode")];
+		},
 	},
 	data() {
 		return {
@@ -121,6 +125,7 @@ export default Vue.extend({
 			resizeNum: null,
 			refreshBed: true,
 			modes: ["unhomed", "homing", "idle", "moving", "estop", "purging", "status", "loading tank",],
+			modeCategories: ["waiting", "waiting", "waiting", "moving", "problem", "moving", "waiting", "waiting",],
 			extruders: ["A ", "B ", "A2", "B2"],
 		};
 	},
@@ -205,12 +210,43 @@ export default Vue.extend({
 .fullscreen-content {
 	width: 100%;
 	min-height: 600px;
-	background-color: #f4f4f4;
+	background-color: #000000;
 	position: relative;
 	font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
 	font-weight: 400;
 	font-size: 16px;
+	overflow: hidden;
 }
+
+.glowing-border {
+	position: absolute;
+	width: 100%;
+	height: calc(100% + 20px);
+	animation: pulse-color 6s infinite linear;
+}
+
+.moving {
+	--pulse-color: #731dd8;
+}
+.glowing-border.waiting {
+	--pulse-color: #e3f31f;
+}
+.glowing-border.problem {
+	--pulse-color: #d8361d;
+}
+
+@keyframes pulse-color {
+	0% {
+		box-shadow: inset 20px 0px 20px 0px var(--pulse-color), inset -20px 0px 20px 0px var(--pulse-color), inset 0px 20px 20px 0px var(--pulse-color);
+	}
+	50% {
+		box-shadow: inset 15px 0px 20px 0px var(--pulse-color), inset -15px 0px 2cap 0px var(--pulse-color), inset 0px 15px 20px 0px var(--pulse-color);
+	}
+	100% {
+		box-shadow: inset 20px 0px 20px 0px var(--pulse-color), inset -20px 0px 20px 0px var(--pulse-color), inset 0px 20px 20px 0px var(--pulse-color);
+	}
+}
+
 
 .tank-outline {
 	position: absolute;
@@ -234,19 +270,19 @@ li {
 }
 
 li .param-name {
-	color: #888888;
+	color: #aaaaaa;
 	display: inline-block;
 }
 
 li .param-value {
-	color: #333333;
+	color: #eeeeee;
 	display: block;
 	margin-left: 20px;
 }
 
 li::before {
 	display: inline-block;
-	background-color: #888888;
+	background-color: #aaaaaa;
 	margin-right: 8px;
 	width: 12px;
 	height: 12px;
