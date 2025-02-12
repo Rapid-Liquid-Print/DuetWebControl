@@ -49,7 +49,7 @@ a:not(:hover) {
 			<!--span v-if="machineMode">{{ $t('panel.status.mode', [machineMode.toUpperCase()]) }}</span-->
 		</v-card-title>
 
-		<v-card-text v-if="sensorsPresent || (visibleAxes.length + model.move.extruders.length > 0)"
+		<v-card-text v-if="/*sensorsPresent || */(visibleAxes.length + model.move.extruders.length > 0)"
 					 class="px-0 pt-0 pb-2 content text-xs-center">
 			<!-- Axis Positions -->
 			<template v-if="visibleAxes.length > 0">
