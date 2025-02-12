@@ -723,6 +723,10 @@
       "unitInches": "cale",
       "unitMm": "mm",
       "unitMmSpeed": "mm/s",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "Sterowanie pojedynczym łóżkiem",
       "groupTools": "Pogrupuj identyczne narzędzia",
       "singleChamberControl": "Sterowanie jednokomorowe"

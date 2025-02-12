@@ -723,6 +723,10 @@
       "unitInches": "インチ",
       "unitMm": "んん",
       "unitMmSpeed": "mm/秒",
+      "unitMl": "mL",
+      "unitMlSpeed": "mL/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "シングルベッドコントロール",
       "groupTools": "同一のツールをグループ化する",
       "singleChamberControl": "シングルチャンバー制御"

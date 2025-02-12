@@ -723,6 +723,10 @@
       "unitInches": "pouces",
       "unitMm": "millimètre",
       "unitMmSpeed": "mm/s",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "Commande lit simple",
       "groupTools": "Regrouper les outils identiques",
       "singleChamberControl": "Commande à chambre unique"

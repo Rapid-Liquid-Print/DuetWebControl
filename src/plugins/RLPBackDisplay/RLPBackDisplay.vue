@@ -10,13 +10,13 @@
 
 				<li>
 					<span class="param-name">TOTAL PART VOLUME</span>
-					<span class="param-value">??? ml</span>
+					<span class="param-value">{{ $displayVolume(undefined, 0) }}</span>
 				</li>
 
 				<li>
 					<span class="param-name">EXTRUDED AMOUNT</span>
 					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
-						{{ $t(["A","B","A2","B2"][index]) }}: {{ $display(model.move.extruders[index].position*0.05, 0) }}
+						{{ ["A","B","A2","B2"][index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
 					</span>
 				</li>
 			</ul>
