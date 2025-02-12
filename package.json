@@ -15,7 +15,9 @@
    "dependencies": {
       "@duet3d/motionanalysis": "^3.4.0",
       "@duet3d/objectmodel": "^3.5.3",
+      "@fontsource/ibm-plex-mono": "^5.1.1",
       "@sindarius/gcodeviewer": "^3.7.4",
+      "@vue/cli-shared-utils": "^5.0.8",
       "chart.js": "^2.9.4",
       "chartjs-adapter-date-fns": "^1.0.0",
       "date-fns": "^2.17.0",
@@ -25,6 +27,7 @@
       "qoijs": "^1.0.0",
       "register-service-worker": "^1.7.2",
       "semver": "^7.5.1",
+      "shallow-clone": "^3.0.1",
       "simple-keyboard": "^3.4.167",
       "turbo-crc32": "^1.0.1",
       "vue": "^2.6.12",
