@@ -154,7 +154,7 @@ export default Vue.extend({
 					document.msExitFullscreen();
 				}
 			}
-			setTimeout(() => this.toggleJobNameAnimation(), 200); // Give the full screen time to settle
+			this.toggleJobNameAnimation();
 		},
 		async refresh() {
 			if (!this.isConnected) {
@@ -169,10 +169,11 @@ export default Vue.extend({
 			}
 		},
 		toggleJobNameAnimation() {
-			const elem = this.$refs.fileNameBox;
-			const elemParent = elem.parentElement;
-			elemParent.classList.toggle('animating', elem.getBoundingClientRect().width > elemParent.getBoundingClientRect().width)
-			console.log('elem: ', elem.getBoundingClientRect().width, ', elem parent: ', elemParent.getBoundingClientRect().width)
+			setTimeout(() => {
+				const elem = this.$refs.fileNameBox;
+				const elemParent = elem.parentElement;
+				elemParent.classList.toggle('animating', elem.getBoundingClientRect().width > elemParent.getBoundingClientRect().width)
+			}, 200);
 		},
 	},
 	activated() {
