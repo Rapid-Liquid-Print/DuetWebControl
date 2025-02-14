@@ -115,11 +115,11 @@ export default Vue.extend({
 		injectedComponents(): Array<{ name: string, component: Component }> { return store.state.uiInjection.injectedComponents; },
 		model(): ObjectModel { return store.state.machine.model; },
 		ip(): string | null {
-			if ((store.state.machine.model.network.interfaces[0].actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[0].actualIP != undefined)) {
-				return store.state.machine.model.network.interfaces[0].actualIP;
+			if ((store.state.machine.model.network.interfaces[0]?.actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[0]?.actualIP != undefined)) {
+				return store.state.machine.model.network.interfaces[0]?.actualIP;
 			}
-			else if ((store.state.machine.model.network.interfaces[1].actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[1].actualIP != undefined)) {
-				return store.state.machine.model.network.interfaces[1].actualIP;
+			else if ((store.state.machine.model.network.interfaces[1]?.actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[1]?.actualIP != undefined)) {
+				return store.state.machine.model.network.interfaces[1]?.actualIP;
 			}
 			else {
 				return null;

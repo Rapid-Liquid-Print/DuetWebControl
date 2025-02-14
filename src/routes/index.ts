@@ -140,7 +140,7 @@ export const Menu = Vue.observable<Record<string, MenuCategory>>({
 				icon: "mdi-information",
 				caption: "menu.job.status",
 				path: "/Job/Status",
-				viewport: "both",
+				viewport: "external",
 				component: JobStatus
 			},
 			/*{
