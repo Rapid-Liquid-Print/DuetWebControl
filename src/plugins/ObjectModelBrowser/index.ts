@@ -7,8 +7,10 @@ registerRoute(ObjectModelBrowser, {
 	Plugins: {
 		ObjectModel: {
 			icon: "mdi-file-tree",
-			caption: "plugins.objectModelBrowser.menuCaption",
-			path: "/Plugins/ObjectModel"
+			caption: "Object Model Browser",
+			translated: true,
+			path: "/Plugins/ObjectModel",
+			viewport: "both"
 		}
 	}
 });

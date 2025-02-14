@@ -11,7 +11,8 @@ registerRoute(RLP, {
 			icon: 'mdi-transition',
 			caption: 'RLP',
 			translated: true,
-			path: '/RLP'
+			path: '/RLP',
+			viewport: 'both'
 		}
 	}
 });

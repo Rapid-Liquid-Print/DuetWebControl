@@ -50,6 +50,11 @@ export interface MenuItem {
 	path: string;
 
 	/**
+	 * Whether the viewport is displayed on the machine or the external interface
+	 */
+	viewport: string;
+
+	/**
 	 * Condition stating if the menu item is visible (defaults to true)
 	 */
 	condition?: boolean | (() => boolean);
@@ -89,6 +94,12 @@ export interface MenuCategory {
  * Actual menu structure (name vs. category descriptor)
  */
 export const Menu = Vue.observable<Record<string, MenuCategory>>({
+	Plugins: {
+		icon: "mdi-puzzle",
+		caption: "menu.plugins.caption",
+		pages: [],
+		translated: false
+	},
 	Control: {
 		icon: "mdi-tune",
 		caption: "menu.control.caption",
@@ -129,6 +140,7 @@ export const Menu = Vue.observable<Record<string, MenuCategory>>({
 				icon: "mdi-information",
 				caption: "menu.job.status",
 				path: "/Job/Status",
+				viewport: "both",
 				component: JobStatus
 			},
 			/*{
@@ -156,6 +168,7 @@ export const Menu = Vue.observable<Record<string, MenuCategory>>({
 				icon: "mdi-play",
 				caption: "menu.files.jobs",
 				path: "/Files/Jobs",
+				viewport: "both",
 				component: Jobs
 			},
 			/*{
@@ -193,17 +206,12 @@ export const Menu = Vue.observable<Record<string, MenuCategory>>({
 				icon: "mdi-power-plug",
 				caption: "menu.plugins.caption",
 				path: "/Settings/Plugins",
+				viewport: "both",
 				component: Plugins
 			}
 		],
 		translated: false
 	},
-	Plugins: {
-		icon: "mdi-puzzle",
-		caption: "menu.plugins.caption",
-		pages: [],
-		translated: false
-	}
 });
 
 /**

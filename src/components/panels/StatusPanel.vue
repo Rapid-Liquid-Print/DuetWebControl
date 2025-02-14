@@ -104,7 +104,7 @@ a:not(:hover) {
 									</strong>
 									<span>
 										<div>
-											{{ $display(model.move.extruders[index].position*0.05, 0) }}
+											{{ $display(model.move.extruders[index]?.position*0.05, 0) }}
 										</div>
 									</span>
 								</v-col>
@@ -112,11 +112,11 @@ a:not(:hover) {
 							<v-row v-else>
 								<v-col class="d-flex flex-column align-center">
 									<strong><div>A</div></strong>
-									<span><div>{{ $display(model.move.extruders[0].position*0.05, 0) }}</div></span>
+									<span><div>{{ $display(model.move.extruders[0]?.position*0.05, 0) }}</div></span>
 								</v-col>
 								<v-col class="d-flex flex-column align-center">
 									<strong><div>B</div></strong>
-									<span><div>{{ $display(model.move.extruders[1].position*0.05, 0) }}</div></span>
+									<span><div>{{ $display(model.move.extruders[1]?.position*0.05, 0) }}</div></span>
 								</v-col>
 							</v-row>
 							<!--/v-col-->

@@ -15,7 +15,7 @@
 				<!--v-list-group v-for="(category, index) in categories" :key="index" :prepend-icon="category.icon"
 							  no-action :value="isExpanded(category)">
 					<template #activator>
-						<!--v-list-item-title class="mr-0">
+						<v-list-item-title class="mr-0">
 							{{ category.translated ? category.caption : $t(category.caption) }}
 						</v-list-item-title>
 					</template-->
@@ -40,7 +40,7 @@
 			</v-app-bar-nav-icon>
 			<v-toolbar-title class="px-1">
 				<a href="javascript:void(0)" id="title">{{ name }}</a>
-				<!--a id="ip"> {{ ip }}</a-->
+				<a id="ip"> {{ ip }}</a>
 			</v-toolbar-title>
 			<connect-btn v-if="showConnectButton" class="hidden-xs-only ml-3" />
 
@@ -70,41 +70,16 @@
 		</v-main>
 
 		<notification-display />
-
-		<v-bottom-navigation v-if="showBottomNavigation" app>
-			<!--v-menu v-for="(category, index) in categories" :key="index" top offset-y>
+		<v-bottom-navigation v-if="showBottomNavigation" app grow>
+			<v-menu v-for="(category, index) in categories" :key="index" top offset-y>
 				<template #activator="{ on }">
-					<v-btn v-on="on">
-						{{ category.translated ? category.caption : $t(category.caption) }}
-						<v-icon v-text="category.icon" class="mb-1" />
+					<v-btn v-on="on" v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`"
+							 :to="page.path" @click.prevent="" class="global-control">
+					<v-icon class="mb-1">{{ page.icon }}</v-icon>
+					{{ page.translated ? page.caption : $t(page.caption) }}
 					</v-btn>
 				</template>
-
-				<v-list-item v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`"
-							 :to="page.path" @click.prevent="" class="global-control">
-					<v-icon v-text="page.icon" class="mr-2" />
-					{{ page.translated ? page.caption : $t(page.caption) }}
-				</v-list-item>
-			</v-menu-->
-			<div v-for="(category, index) in categories" :key="index">
-				<!--v-list-group v-for="(category, index) in categories" :key="index" :prepend-icon="category.icon"
-							  no-action :value="isExpanded(category)">
-					<template #activator>
-						<!--v-list-item-title class="mr-0">
-							{{ category.translated ? category.caption : $t(category.caption) }}
-						</v-list-item-title>
-					</template-->
-				<v-list-item v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`" v-ripple
-								:to="page.path" @click.prevent="">
-					<v-list-item-icon>
-						<v-icon v-text="page.icon"></v-icon>
-					</v-list-item-icon>
-					<v-list-item-title>
-						{{ page.translated ? page.caption : $t(page.caption) }}
-					</v-list-item-title>
-				</v-list-item>
-				<!--/v-list-group-->
-				</div>
+			</v-menu>
 		</v-bottom-navigation>
 
 		<connect-dialog />
@@ -139,11 +114,28 @@ export default Vue.extend({
 		jobProgress(): number { return store.getters["machine/model/jobProgress"]; },
 		injectedComponents(): Array<{ name: string, component: Component }> { return store.state.uiInjection.injectedComponents; },
 		model(): ObjectModel { return store.state.machine.model; },
-		ip(): string | null { return store.state.machine.model.network.interfaces[0].actualIP },
+		ip(): string | null {
+			if ((store.state.machine.model.network.interfaces[0].actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[0].actualIP != undefined)) {
+				return store.state.machine.model.network.interfaces[0].actualIP;
+			}
+			else if ((store.state.machine.model.network.interfaces[1].actualIP != "0.0.0.0") && (store.state.machine.model.network.interfaces[1].actualIP != undefined)) {
+				return store.state.machine.model.network.interfaces[1].actualIP;
+			}
+			else {
+				return null;
+			}
+		},
 		categories(): Array<MenuCategory> {
-			return Object.keys(Menu)
-				.map(key => Menu[key])
-				.filter(item => item.pages.some(page => page.condition));
+			if (this.$vuetify.breakpoint.smAndDown) {
+				return Object.keys(Menu)
+					.map(key => Menu[key])
+					.filter(item => item.pages.some(page => ((page.condition) && ((page.viewport == "machine") || (page.viewport == "both")))));
+			}
+			else {
+				return Object.keys(Menu)
+					.map(key => Menu[key])
+					.filter(item => item.pages.some(page => ((page.condition) && ((page.viewport == "external") || (page.viewport == "both")))));
+			}
 		},
 		currentPageCondition(): boolean {
 			const currentRoute = this.$route;
@@ -184,14 +176,30 @@ export default Vue.extend({
 	},
 	methods: {
 		isExpanded(category: MenuCategory): boolean {
-			if (this.$vuetify.breakpoint.smAndDown) {
+			/*if (this.$vuetify.breakpoint.smAndDown) {
 				const route = this.$route;
 				return category.pages.some(page => page.path === route.path);
-			}
+			}*/
 			return true;
 		},
 		getPages(category: MenuCategory): Array<MenuItem> {
-			return category.pages.filter(page => page.condition);
+			if (this.$vuetify.breakpoint.smAndDown) {
+				/*console.log("category: " + category.caption);
+				console.log("full pages list, pre-filtering");
+				console.log(category.pages);
+				console.log("post-filtering pages list");
+				console.log(category.pages
+					.filter(page => page.condition)
+					.filter(page => ((page.viewport == "machine") || (page.viewport == "both"))));*/
+				return category.pages
+					.filter(page => page.condition)
+					.filter(page => ((page.viewport == "machine") || (page.viewport == "both")));
+			}
+			else {
+				return category.pages
+					.filter(page => page.condition)
+					.filter(page => ((page.viewport == "external") || (page.viewport == "both")));
+			}
 		},
 		updateTitle(): void {
 			if (this.status === MachineStatus.disconnected) {

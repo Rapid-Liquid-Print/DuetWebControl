@@ -11,7 +11,8 @@ registerRoute(RLPBackDisplay, {
       icon: 'mdi-transition',
       caption: 'RLP Back Display',
       translated: true,
-      path: '/RLPBackDisplay'
+      path: '/RLPBackDisplay',
+      viewport: "both"
     }
   }
 });
