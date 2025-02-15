@@ -1,8 +1,8 @@
 {
-  "id": "RLP",
-  "name": "RLP",
-  "author": "Ariane Schoenwiesner",
-  "version": "1.0.8",
+  "id": "Purging",
+  "name": "Purging",
+  "author": "RLP",
+  "version": "1.0.0",
   "license": "GPL-3.0-or-later",
   "homepage": "https://www.rapidliquidprint.com/",
   "dwcVersion": "auto"

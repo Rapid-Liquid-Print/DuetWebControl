@@ -23,7 +23,7 @@
 					<v-list-item v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`" v-ripple
 								 :to="page.path" @click.prevent="">
 						<v-list-item-icon>
-							<v-icon v-text="page.icon"></v-icon>
+							<v-icon>{{ page.icon }}</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>
 							{{ page.translated ? page.caption : $t(page.caption) }}
@@ -34,7 +34,7 @@
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-app-bar ref="appToolbar" app clipped-left>
+		<v-app-bar ref="appToolbar" app clipped-left :extended="$vuetify.breakpoint.smAndDown">
 			<v-app-bar-nav-icon v-show="!showBottomNavigation" @click.stop="drawer = !drawer">
 				<v-icon>mdi-menu</v-icon>
 			</v-app-bar-nav-icon>
@@ -51,7 +51,7 @@
 			<v-spacer />
 
 			<!--upload-btn target="start" :elevation="1" class="mr-3 hidden-sm-and-down"/-->
-			<emergency-btn/>
+			<emergency-btn v-show="!showBottomNavigation"/>
 		</v-app-bar>
 
 		<v-main id="content" :style="`margin-bottom: ${bottomMargin}px`">
@@ -70,11 +70,11 @@
 		</v-main>
 
 		<notification-display />
-		<v-bottom-navigation v-if="showBottomNavigation" app grow>
+		<v-bottom-navigation v-if="showBottomNavigation" app grow style="height: 8vh">
 			<v-menu v-for="(category, index) in categories" :key="index" top offset-y>
 				<template #activator="{ on }">
 					<v-btn v-on="on" v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`"
-							 :to="page.path" @click.prevent="" class="global-control">
+							 :to="page.path" @click.prevent="" class="global-control, v-btn--active">
 					<v-icon class="mb-1">{{ page.icon }}</v-icon>
 					{{ page.translated ? page.caption : $t(page.caption) }}
 					</v-btn>

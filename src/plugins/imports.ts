@@ -56,6 +56,16 @@ export default initCollection(DwcPlugin, [
         )
     },
 	{
+        id: "Purging",
+        name: "Purging",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "Purging" */
+            "./Purging/index"
+        )
+    },
+	{
         id: "RLP",
         name: "RLP",
         author: "Ariane Schoenwiesner",
