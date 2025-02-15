@@ -347,6 +347,9 @@ export default Vue.extend ({
 				//btn1.disabled = true;
 				//btn2.disabled = true;
 			}
+			else if ((this.aInp == 1) && (this.bInp == 1)) {
+				this.ratio = 1;
+			}
 			else {
 				this.ratio = undefined;
 				//btn1.disabled = false;
