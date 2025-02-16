@@ -12,8 +12,17 @@
 				</v-card>
 			</v-col>
 		</v-row>
+
+		<v-row v-if="(status=='processing')||(status=='paused')||(status=='pausing')||(status=='resuming')||(status=='cancelling')||(status=='simulating')" class="justify-center">
+			<v-col>
+				<v-card>
+					<job-control-panel/>
+					<v-checkbox class="px-4" label="Run Clean Purge at End" v-model='global["cleanPurge"]' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
+				</v-card>
+			</v-col>
+		</v-row>
 		
-		<v-row class="justify-center">
+		<v-row v-if="(status!='processing')&&(status!='paused')&&(status!='pausing')&&(status!='resuming')&&(status!='cancelling')&&(status!='simulating')" class="justify-center">
 			<v-col>
 				<v-card id="purging" :disabled="status!='idle'" class="justify-left my-1">
 					<v-card-title>
