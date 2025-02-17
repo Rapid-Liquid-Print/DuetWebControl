@@ -26,6 +26,16 @@ export default initCollection(DwcPlugin, [
         )
     },
 	{
+        id: "Info",
+        name: "Info",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "Info" */
+            "./Info/index"
+        )
+    },
+	{
         id: "InputShaping",
         name: "Input Shaping",
         author: "Duet3D Ltd",
@@ -53,36 +63,6 @@ export default initCollection(DwcPlugin, [
         loadDwcResources: () => import(
             /* webpackChunkName: "OnScreenKeyboard" */
             "./OnScreenKeyboard/index"
-        )
-    },
-	{
-        id: "Purging",
-        name: "Purging",
-        author: "RLP",
-        version: "1.0.0",
-        loadDwcResources: () => import(
-            /* webpackChunkName: "Purging" */
-            "./Purging/index"
-        )
-    },
-	{
-        id: "RLP",
-        name: "RLP",
-        author: "Ariane Schoenwiesner",
-        version: "1.0.8",
-        loadDwcResources: () => import(
-            /* webpackChunkName: "RLP" */
-            "./RLP/index"
-        )
-    },
-	{
-        id: "RLPBackDisplay",
-        name: "RLP Back Display",
-        author: "RLP",
-        version: "1.0.0",
-        loadDwcResources: () => import(
-            /* webpackChunkName: "RLPBackDisplay" */
-            "./RLPBackDisplay/index"
         )
     },
 ]);

@@ -161,7 +161,8 @@ export default Vue.extend({
 			return this.$vuetify.breakpoint.mobile && !this.$vuetify.breakpoint.xsOnly && store.state.settings.bottomNavigation;
 		},
 		doNotSwitchToStatusPanelOnJobStart(): boolean {
-			return store.state.settings.behaviour.jobStart; 
+			// return store.state.settings.behaviour.jobStart;
+			return true;
 		},
 		bottomMargin(): number {
 			return store.state.bottomMargin;
