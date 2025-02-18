@@ -24,31 +24,31 @@
 		
 		<v-row v-if="(status!='processing')&&(status!='paused')&&(status!='pausing')&&(status!='resuming')&&(status!='cancelling')&&(status!='simulating')" class="justify-center">
 			<v-col>
-				<v-card id="purging" :disabled="status!='idle'" class="justify-left my-1">
+				<v-card id="purging" :disabled="status!='idle'">
 					<v-card-title>
 						<v-icon class="mr-2">
 							{{ purgeIcon }}
 						</v-icon>
 						Purge
 					</v-card-title>
-					<v-expansion-panels v-model="panel">
+					<v-expansion-panels accordion v-model="panel">
 						<v-expansion-panel>
 							<v-expansion-panel-header>Basic</v-expansion-panel-header>
 							<v-expansion-panel-content>
 								<v-row>
 									<v-col>
-									<div>
-										<v-btn class="rlp-basic" @click="refreshPurge(true)"  block>
-											1:1 PURGE
-										</v-btn>
-									</div>
+										<div>
+											<v-btn class="rlp-basic" @click="refreshPurge(true)"  block>
+												1:1 PURGE
+											</v-btn>
+										</div>
 									</v-col>
 									<v-col>
-									<div>
-										<v-btn class="rlp-basic" @click='cleanPurging' block>
-											CLEAN PURGE
-										</v-btn>
-									</div>
+										<div>
+											<v-btn class="rlp-basic" @click='cleanPurging' block>
+												CLEAN PURGE
+											</v-btn>
+										</div>
 									</v-col>
 								</v-row>
 								<v-row>
@@ -780,6 +780,9 @@ export default Vue.extend ({
 </script>
 
 <style scoped>
+.v-card {
+	background-color: #272b2f;
+}
 .v-btn {
 	height: 60px !important;
 	font-size: 36px;
@@ -802,6 +805,7 @@ export default Vue.extend ({
 }
 .v-expansion-panel {
 	font-size: 25px !important;
+	background-color: #212428 !important;
 }
 .v-expansion-panel-header {
 	font-size: 25px !important;

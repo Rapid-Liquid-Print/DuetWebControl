@@ -39,6 +39,7 @@
 				<v-icon>mdi-menu</v-icon>
 			</v-app-bar-nav-icon>
 			<v-toolbar-title class="px-1" :class="{'large-heading': $vuetify.breakpoint.mdAndDown}">
+
 				<a href="javascript:void(0)" id="title">{{ name }}</a>
 				<br>
 				<a id="ip"> {{ ip }}</a>
@@ -73,11 +74,12 @@
 		<v-bottom-navigation v-if="showBottomNavigation" app grow style="height: 8vh">
 			<v-menu v-for="(category, index) in categories" :key="index" top offset-y>
 				<template #activator="{ on }">
-					<v-btn v-on="on" v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`"
-							 :to="page.path" @click.prevent="" class="global-control, v-btn--active">
-					<v-icon class="mb-1">{{ page.icon }}</v-icon>
-					{{ page.translated ? page.caption : $t(page.caption) }}
-					</v-btn>
+					<div v-on="on" v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`">
+						<v-btn v-if="page.path!='/RLPBackDisplay'" :to="page.path" @click.prevent="" class="global-control, v-btn--active">
+							<v-icon class="mb-1">{{ page.icon }}</v-icon>
+							{{ page.translated ? page.caption : $t(page.caption) }}
+						</v-btn>
+					</div>
 				</template>
 			</v-menu>
 		</v-bottom-navigation>
@@ -306,12 +308,18 @@ export default Vue.extend({
 <style scoped>
 .v-application {
 	font-family: 'Work Sans', sans-serif !important;
+	font-size: 30px !important;
 }
 .v-bottom-navigation {
 	height: 100px !important;
+	overflow-x: scroll;
 }
 .v-item-group.v-bottom-navigation .v-btn {
-	font-size: 20px !important;
+	font-size: 30px !important;
+	font-family: "IBM Plex Mono", monospace;
+	padding: 20px;
+	padding-left: 25px;
+	padding-right: 25px;
 }
 
 .v-toolbar__title {
@@ -329,7 +337,7 @@ export default Vue.extend({
 .v-toolbar__title a {
 	overflow: hidden;
 	white-space: nowrap;
-
+	color: #ffffff !important;
 }
 
 </style scoped>

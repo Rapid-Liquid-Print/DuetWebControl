@@ -2,72 +2,94 @@
 	<div>
 		<v-row id="homedCard">
 			<v-col v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)">
-				<v-card id="homed" :disabled="status!='idle'" color="warning" class="mx-6">
+				<v-card id="homed" :disabled="status!='idle'" color="#D84315" class="mx-6">
 					<v-card-title class="justify-center">
 						Machine not homed!
-						<v-btn class="ma-2" @click='homing("all")' color="blue">
-							Home
+						<v-btn class="rlp-home" @click='homing("all")'>
+							HOME
 						</v-btn>
 					</v-card-title>
 				</v-card>
 			</v-col>
 		</v-row>
-		<v-row class="justify-left">
+		<v-row class="justify-center">
 			<v-col>
-				<v-card id="keypad" :disabled="status!='idle' || idlePurging" color='#424242' class="justify-left my-1">
-					<v-card-title>
+				<v-card id="keypad" :disabled="status!='idle' || idlePurging">
+					<v-card-title class="my-2">
 						<v-icon class="mr-2">
 							{{ arrowIcon }}
 						</v-icon>
 						Jog
 					</v-card-title>
-					<div class="mx-4">
-						<v-btn color="green" @click="setupLoc" :disabled='global.get("purge_loc")' block>
-							Purge Location
-						</v-btn>
+					<div class="mx-6">
+						<v-row>
+							<v-col>
+								<div>
+									<v-btn @click="setupLoc" :disabled='global.get("purge_loc")' block>
+										PURGE LOCATION
+									</v-btn>
+								</div>
+							</v-col>
+							<v-col>
+								<div>
+									<v-btn @click="goOrigin" block>
+										ORIGIN
+									</v-btn>
+								</div>
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<div v-if="mode!=7">
+									<v-btn  color="#00838F" @click="lock" block>
+										UNLOCK MACHINE
+									</v-btn>
+								</div>
+								<div v-if="mode==7">
+									<v-btn class="rlp-on" @click="lock" block>
+										LOCK MACHINE
+									</v-btn>
+								</div>
+							</v-col>
+						</v-row>
+						<br>
+						<v-col>
+							<v-row>
+								<v-text-field type="number" id="xx" label="X:" :placeholder=String(axes[0].machinePosition) persistent-placeholder v-model="xInp"></v-text-field>
+							</v-row>
+							<v-row>
+								<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1].machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
+							</v-row>
+							<v-row>
+								<v-btn color="green" @click="goTo">
+									GO
+								</v-btn>
+							</v-row>
+							<br>
+							<br>
+							<v-row>
+								<v-text-field type="number" id="zz" label="Z:" :placeholder=String(axes[2].machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
+							</v-row>
+							<v-row>
+								<v-btn @click="zGoTo">
+									GO
+								</v-btn>
+							</v-row>
+							<br>
+						</v-col>
 					</div>
-					<br>
-					<div class="mx-4">
-						<v-btn color="green darken-4" @click="goOrigin" block>
-							Origin
-						</v-btn>
-					</div>
-					<br>
-					<br>
-					<v-row class="text-center mx-8">
-						<v-text-field type="number" id="xx" label="X:" :placeholder=String(axes[0].machinePosition) persistent-placeholder v-model="xInp"></v-text-field>
-					</v-row>
-					<v-row class="text-center mx-8">
-						<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1].machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
-					</v-row>
-					<v-row class="justify-left px-10">
-						<v-btn color="green" @click="goTo">
-							Go
-						</v-btn>
-					</v-row>
-					<br>
-					<br>
-					<v-row class="text-center mx-8">
-						<v-text-field type="number" id="zz" label="Z:" :placeholder=String(axes[2].machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
-					</v-row>
-					<v-row class="justify-left px-10">
-						<v-btn color="green" @click="zGoTo">
-							Go
-						</v-btn>
-					</v-row>
-					<br>
-					<br>
-					<br>
-					<div class="mx-4">
-						<v-btn @click="homing('all')" color="blue" block>
-							Home Axes
-						</v-btn>
+					<div class="mx-3">
+						<v-col>
+							<v-btn @click="homing('all')" block>
+								HOME AXES
+							</v-btn>
+						</v-col>
 					</div>
 					<br>
 					<v-expansion-panels>
 						<v-expansion-panel>
 							<v-expansion-panel-header>Last Job Start Location</v-expansion-panel-header>
-							<v-expansion-panel-content>
+							<v-expansion-panel-content class="font-family: IBM Plex Mono">
 								X: {{ $display(global.get("placeX")) }}<br>
 								Y: {{ $display(global.get("placeY")) }}<br>
 								Z: {{ $display(global.get("placeZ")) }}
@@ -117,6 +139,9 @@ export default Vue.extend ({
 		},
 		light() {
 			return store.state.machine.model.fans[2]?.actualValue;
+		},
+		mode() {
+			return this.global.get("mode");
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),
@@ -216,6 +241,15 @@ export default Vue.extend ({
 				this.renderBed();
 			}*/
 			return { width, height };
+		},
+		async lock() {
+			// don't allow locking/unlocking if in the wrong mode!!! add in actual function here
+			if (this.mode != 7) {
+				await this.sendCode("set global.mode=7");
+			}
+			else {
+				await this.sendCode("set global.mode=2");
+			}
 		},
 		async homing(axis) {
 			if ((this.global.get("mode") == 2) || (this.global.get("mode") == 0)) {
@@ -470,3 +504,37 @@ export default Vue.extend ({
 });
 
 </script>
+
+<style scoped>
+.v-card {
+	background-color: #272b2f;
+}
+.v-btn {
+	height: 60px !important;
+	font-size: 36px;
+	font-family: 'IBM Plex Mono', monospace !important;
+	background-color: #2d3236 !important;
+	border: 5px solid;
+	border-color: #4518c0 !important;
+}
+.v-btn.rlp-on {
+	background-color: #862d11 !important;
+	border: 0px;
+}
+.v-btn.rlp-home {
+	background-color: #862d11 !important;
+	margin-left: 20px;
+	border: 0px;
+}
+.v-card__title {
+	font-size: 25px !important;
+}
+.v-expansion-panel {
+	font-size: 25px !important;
+	font-family: "IBM Plex Mono", monospace;
+}
+.v-expansion-panel-header {
+	font-size: 25px !important;
+	font-family: "Work Sans", sans-serif !important;
+}
+</style scoped>
