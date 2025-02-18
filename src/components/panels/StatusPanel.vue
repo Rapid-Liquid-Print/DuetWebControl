@@ -46,7 +46,7 @@ a:not(:hover) {
 
 			<v-spacer />
 
-			<!--span v-if="machineMode">{{ $t('panel.status.mode', [machineMode.toUpperCase()]) }}</span-->
+			<!-- <span v-if="machineMode">{{ $t('panel.status.mode', [machineMode.toUpperCase()]) }}</span> -->
 		</v-card-title>
 
 		<v-card-text v-if="/*sensorsPresent || */(visibleAxes.length + model.move.extruders.length > 0)"
@@ -95,7 +95,7 @@ a:not(:hover) {
 								<span>
 									{{ $display(move.extruders[index].position*0.05, 3) }}
 								</span-->
-							<v-row v-if="model.global.extruder_num>2">
+							<v-row v-if="model.global.get('extruder_num')>2">
 								<v-col v-for="(extruder, index) in model.move.extruders" :key="index" class="d-flex flex-column align-center">
 									<strong>
 										<div>
@@ -167,7 +167,7 @@ a:not(:hover) {
 									{{ displayVolumetricFlow ? $display(volumetricFlow, 1, "mL/s") : $displayMoveSpeed(model.move.currentMove.extrusionRate) }}
 								</span>
 							</v-col-->
-					<v-col v-if="isNumber(model.move.currentMove.requestedSpeed)" class="d-flex flex-column align-center">
+					<v-col class="d-flex flex-column align-center">
 						<strong>
 							Max Speed
 						</strong>
@@ -176,7 +176,7 @@ a:not(:hover) {
 						</span>
 					</v-col>
 
-					<v-col v-if="isNumber(model.move.currentMove.topSpeed)" class="d-flex flex-column align-center">
+					<v-col class="d-flex flex-column align-center">
 						<strong>
 							Speed
 						</strong>
@@ -364,6 +364,9 @@ export default Vue.extend({
 			status: state => state.state.status
 		}),
 		...mapGetters(['isConnected']),*/
+		machineMode() : MachineMode {
+			return store.state.machine.model.state.machineMode;
+		},
 		fanRPM() {
 			return store.state.machine.model.fans
 				.filter((fan:any) => fan && fan.rpm >= 0)

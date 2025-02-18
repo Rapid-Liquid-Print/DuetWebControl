@@ -95,4 +95,14 @@ export default initCollection(DwcPlugin, [
             "./RLPBackDisplay/index"
         )
     },
+	{
+        id: "RLPStatus",
+        name: "RLP Status page",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "RLPStatus" */
+            "./RLPStatus/index"
+        )
+    },
 ]);
