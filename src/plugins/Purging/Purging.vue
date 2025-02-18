@@ -2,11 +2,11 @@
 	<div>
 		<v-row id="homedCard">
 			<v-col v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)">
-				<v-card id="homed" :disabled="status!='idle'" color="warning" class="mx-6">
+				<v-card id="homed" :disabled="status!='idle'" color="#D84315" class="mx-6">
 					<v-card-title class="justify-center">
 						Machine not homed!
-						<v-btn class="ma-2" @click='homing("all")' color="blue">
-							Home
+						<v-btn class="rlp-home" @click='homing("all")'>
+							HOME
 						</v-btn>
 					</v-card-title>
 				</v-card>
@@ -16,7 +16,7 @@
 		<v-row v-if="(status=='processing')||(status=='paused')||(status=='pausing')||(status=='resuming')||(status=='cancelling')||(status=='simulating')" class="justify-center">
 			<v-col>
 				<v-card>
-					<job-control-panel/>
+					<job-control-panel class="rlp-machine-job-control"/>
 					<v-checkbox class="px-4" label="Run Clean Purge at End" v-model='global["cleanPurge"]' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
 				</v-card>
 			</v-col>
@@ -35,34 +35,43 @@
 						<v-expansion-panel>
 							<v-expansion-panel-header>Basic</v-expansion-panel-header>
 							<v-expansion-panel-content>
-								<div>
-									<v-btn color="green" @click="refreshPurge(true)" block>
-										1:1 Purge
-									</v-btn>
-								</div>
-								<br>
-								<div>
-									<v-btn color="green darken-4" @click='cleanPurging' block>
-										Clean Purge
-									</v-btn>
-								</div>
-								<br>
-								<div v-if="!idlePurging">
-									<v-btn color="green darken-4" @click='sneezePurge("AB")' block>
-										Sneeze
-									</v-btn>
-								</div>
-								<br>
-								<div v-if="air==0">
-									<v-btn color="#00838F" @click="airPressure" block>
-										Air On
-									</v-btn>
-								</div>
-								<div v-if="air==1">
-									<v-btn color="red darken-3" @click="airPressure" block>
-										Air Off
-									</v-btn>
-								</div>
+								<v-row>
+									<v-col>
+									<div>
+										<v-btn class="rlp-basic" @click="refreshPurge(true)"  block>
+											1:1 PURGE
+										</v-btn>
+									</div>
+									</v-col>
+									<v-col>
+									<div>
+										<v-btn class="rlp-basic" @click='cleanPurging' block>
+											CLEAN PURGE
+										</v-btn>
+									</div>
+									</v-col>
+								</v-row>
+								<v-row>
+									<v-col>
+										<div v-if="!idlePurging">
+											<v-btn class="rlp-utility" @click='sneezePurge("AB")' block>
+												SNEEZE
+											</v-btn>
+										</div>
+									</v-col>
+									<v-col>
+										<div v-if="air==0">
+											<v-btn  color="#00838F" @click="airPressure" block>
+												AIR ON
+											</v-btn>
+										</div>
+										<div v-if="air==1">
+											<v-btn class="rlp-on" @click="airPressure" block>
+												AIR OFF
+											</v-btn>
+										</div>
+									</v-col>
+								</v-row>
 								<br>
 							</v-expansion-panel-content>
 						</v-expansion-panel>
@@ -111,7 +120,7 @@
 												</v-btn>
 												<br-->
 												<v-btn color="green" @click="refreshPurge(false)" block>
-													Purge
+													PURGE
 												</v-btn>
 												<br>
 												<!--v-btn color="teal" @click="printString" block>
@@ -126,13 +135,13 @@
 											<v-col>
 												<v-btn-toggle v-model="time">
 													<v-btn value=5 color='gray'>
-														5min
+														5 MIN
 													</v-btn>
 													<v-btn value=10 color='gray'>
-														10min
+														10 MIN
 													</v-btn>
 													<v-btn value=15 color='gray'>
-														15min
+														15 MIN
 													</v-btn>
 												</v-btn-toggle>
 											</v-col>
@@ -141,13 +150,13 @@
 										<div v-if="needle && ratio && time">
 											<div v-if="!idlePurging">
 												<v-btn color="green" @click="idleMode" block>
-													Idle Purge
+													IDLE PURGE
 												</v-btn>
 												<br>
 											</div>
 											<div v-if="idlePurging">
-												<v-btn color="red" @click="stopIdleMode" block>
-													End Idle Purge
+												<v-btn color="#862d11" @click="stopIdleMode" block>
+													END IDLE PURGE
 												</v-btn>
 												<br>
 											</div>
@@ -769,3 +778,35 @@ export default Vue.extend ({
 });
 
 </script>
+
+<style scoped>
+.v-btn {
+	height: 60px !important;
+	font-size: 36px;
+	font-family: 'IBM Plex Mono', monospace !important;
+	background-color: #2d3236 !important;
+	border: 5px solid;
+	border-color: #4518c0 !important;
+}
+.v-btn.rlp-on {
+	background-color: #862d11 !important;
+	border: 0px;
+}
+.v-btn.rlp-home {
+	background-color: #862d11 !important;
+	margin-left: 20px;
+	border: 0px;
+}
+.v-card__title {
+	font-size: 25px !important;
+}
+.v-expansion-panel {
+	font-size: 25px !important;
+}
+.v-expansion-panel-header {
+	font-size: 25px !important;
+}
+.job-control-panel.rlp-machine-job-control {
+	font-size: 36px !important;
+}
+</style scoped>

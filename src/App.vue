@@ -38,7 +38,13 @@
 			<v-app-bar-nav-icon v-show="!showBottomNavigation" @click.stop="drawer = !drawer">
 				<v-icon>mdi-menu</v-icon>
 			</v-app-bar-nav-icon>
-			<v-toolbar-title class="px-1">
+			<div v-show="showBottomNavigation">
+				<v-toolbar-title>
+					<a href="javascript:void(0)" id="title">{{ name }}</a>
+					<a id="ip"> {{ ip }}</a>
+				</v-toolbar-title>
+			</div>
+			<v-toolbar-title class="px-1 hidden-sm-and-down">
 				<a href="javascript:void(0)" id="title">{{ name }}</a>
 				<a id="ip"> {{ ip }}</a>
 			</v-toolbar-title>
@@ -302,3 +308,20 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+.v-application {
+	font-family: 'Work Sans', sans-serif !important;
+}
+.v-bottom-navigation {
+	height: 100px !important;
+}
+.v-item-group.v-bottom-navigation .v-btn {
+	font-size: 20px !important;
+}
+.v-toolbar__title {
+	font-size: 35px !important;
+	color: #FFFFFF !important;
+}
+
+</style scoped>

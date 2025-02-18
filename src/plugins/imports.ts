@@ -46,6 +46,16 @@ export default initCollection(DwcPlugin, [
         )
     },
 	{
+        id: "Jogging",
+        name: "Jogging",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "Jogging" */
+            "./Jogging/index"
+        )
+    },
+	{
         id: "ObjectModelBrowser",
         name: "Object Model Browser",
         author: "Duet3D Ltd",
@@ -63,6 +73,26 @@ export default initCollection(DwcPlugin, [
         loadDwcResources: () => import(
             /* webpackChunkName: "OnScreenKeyboard" */
             "./OnScreenKeyboard/index"
+        )
+    },
+	{
+        id: "Purging",
+        name: "Purging",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "Purging" */
+            "./Purging/index"
+        )
+    },
+	{
+        id: "RLPBackDisplay",
+        name: "RLP Back Display",
+        author: "RLP",
+        version: "1.0.0",
+        loadDwcResources: () => import(
+            /* webpackChunkName: "RLPBackDisplay" */
+            "./RLPBackDisplay/index"
         )
     },
 ]);
