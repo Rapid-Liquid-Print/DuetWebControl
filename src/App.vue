@@ -34,23 +34,17 @@
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-app-bar ref="appToolbar" app clipped-left :extended="$vuetify.breakpoint.smAndDown">
+		<v-app-bar ref="appToolbar" app clipped-left :extended="false" :height="$vuetify.breakpoint.mdAndDown ? '124px' : undefined">
 			<v-app-bar-nav-icon v-show="!showBottomNavigation" @click.stop="drawer = !drawer">
 				<v-icon>mdi-menu</v-icon>
 			</v-app-bar-nav-icon>
-			<div v-show="showBottomNavigation">
-				<v-toolbar-title>
-					<a href="javascript:void(0)" id="title">{{ name }}</a>
-					<a id="ip"> {{ ip }}</a>
-				</v-toolbar-title>
-			</div>
-			<v-toolbar-title class="px-1 hidden-sm-and-down">
+			<v-toolbar-title class="px-1" :class="{'large-heading': $vuetify.breakpoint.mdAndDown}">
 				<a href="javascript:void(0)" id="title">{{ name }}</a>
+				<br>
 				<a id="ip"> {{ ip }}</a>
 			</v-toolbar-title>
+			<v-spacer class="hidden-md-and-up"/>
 			<connect-btn v-if="showConnectButton" class="hidden-xs-only ml-3" />
-
-			<v-spacer />
 
 			<code-input class="mx-3 hidden-sm-and-down" />
 
@@ -164,7 +158,7 @@ export default Vue.extend({
 			return store.state.settings.dashboardMode === DashboardMode.fff;
 		},
 		showBottomNavigation(): boolean {
-			return this.$vuetify.breakpoint.mobile && !this.$vuetify.breakpoint.xsOnly && store.state.settings.bottomNavigation;
+			return this.$vuetify.breakpoint.mobile && store.state.settings.bottomNavigation;
 		},
 		doNotSwitchToStatusPanelOnJobStart(): boolean {
 			// return store.state.settings.behaviour.jobStart;
@@ -319,9 +313,23 @@ export default Vue.extend({
 .v-item-group.v-bottom-navigation .v-btn {
 	font-size: 20px !important;
 }
+
 .v-toolbar__title {
-	font-size: 35px !important;
-	color: #FFFFFF !important;
+	line-height: 1 !important;
+	white-space: initial;
+}
+.v-toolbar__title.large-heading {
+	font-size: 48px !important;
+}
+
+.v-toolbar__title.large-heading #ip {
+	font-size: 36px !important;
+}
+
+.v-toolbar__title a {
+	overflow: hidden;
+	white-space: nowrap;
+
 }
 
 </style scoped>
