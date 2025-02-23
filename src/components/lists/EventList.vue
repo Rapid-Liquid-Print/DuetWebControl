@@ -14,6 +14,29 @@ td.title-cell {
 .message {
 	white-space: pre-wrap;
 }
+@media (width <= 800px) {
+* {
+font-size: 30px !important;
+}
+}
+
+/*@media (width <= 800px) {
+.v-data-table--fixed-height {
+height: 500px !important;
+}
+}*/
+
+@media (width <= 800px) {
+.v-data-table__wrapper {
+height: 20px !important;
+}
+}
+
+@media (width > 800px) {
+.v-data-table__wrapper {
+height: 27.8vh !important;
+}
+}
 
 th:last-child {
 	padding-right: 0 !important;
@@ -24,7 +47,7 @@ th:last-child {
 <template>
 	<div class="component">
 		<v-data-table
-			height="27.8vh" :headers="headers" :items="events" item-key="date"
+			:headers="headers" :items="events" item-key="date"
 			disable-pagination hide-default-footer :mobile-breakpoint="0"
 			:custom-sort="sort" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" must-sort
 			class="elevation-3" :class="{ 'empty-table-fix' : !events.length }">

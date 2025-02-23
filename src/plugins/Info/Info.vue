@@ -2,7 +2,9 @@
 	<div>
 		<v-row id="homedCard">
 			<v-col>
-				<event-list />
+				<v-card class="height: 600px">
+					<event-list />
+				</v-card>
 			</v-col>
 		</v-row>
 	</div>

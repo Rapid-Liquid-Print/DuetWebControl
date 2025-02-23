@@ -12,7 +12,7 @@ registerRoute(Jogging, {
 			caption: 'Jogging',
 			translated: true,
 			path: '/Jogging',
-			viewport: 'both'
+			viewport: 'machine'
 		}
 	}
 });

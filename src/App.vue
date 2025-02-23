@@ -71,17 +71,11 @@
 		</v-main>
 
 		<notification-display />
-		<v-bottom-navigation v-if="showBottomNavigation" app grow style="height: 8vh">
-			<v-menu v-for="(category, index) in categories" :key="index" top offset-y>
-				<template #activator="{ on }">
-					<div v-on="on" v-for="(page, pageIndex) in getPages(category)" :key="`${index}-${pageIndex}`">
-						<v-btn v-if="page.path!='/RLPBackDisplay'" :to="page.path" @click.prevent="" class="global-control, v-btn--active">
-							<v-icon class="mb-1">{{ page.icon }}</v-icon>
-							{{ page.translated ? page.caption : $t(page.caption) }}
-						</v-btn>
-					</div>
-				</template>
-			</v-menu>
+		<v-bottom-navigation v-if="showBottomNavigation" app style="height: 8vh" class="px-10">
+			<v-btn v-for="(page, index) in flattenedPages()" :key="index" :to="page.path" @click.prevent="" class="global-control, v-btn--active">
+				<v-icon class="mb-1">{{ page.icon }}</v-icon>
+				{{ page.translated ? page.caption : $t(page.caption) }}
+			</v-btn>
 		</v-bottom-navigation>
 
 		<connect-dialog />
@@ -129,6 +123,9 @@ export default Vue.extend({
 		},
 		categories(): Array<MenuCategory> {
 			if (this.$vuetify.breakpoint.smAndDown) {
+				/*console.log(Object.keys(Menu)
+					.map(key => Menu[key])
+					.filter(item => item.pages.some(page => ((page.condition) && ((page.viewport == "machine") || (page.viewport == "both"))))));*/
 				return Object.keys(Menu)
 					.map(key => Menu[key])
 					.filter(item => item.pages.some(page => ((page.condition) && ((page.viewport == "machine") || (page.viewport == "both")))));
@@ -187,10 +184,8 @@ export default Vue.extend({
 		},
 		getPages(category: MenuCategory): Array<MenuItem> {
 			if (this.$vuetify.breakpoint.smAndDown) {
-				/*console.log("category: " + category.caption);
-				console.log("full pages list, pre-filtering");
-				console.log(category.pages);
-				console.log("post-filtering pages list");
+				/*console.log('pages listed under ');
+				console.log(category.caption);
 				console.log(category.pages
 					.filter(page => page.condition)
 					.filter(page => ((page.viewport == "machine") || (page.viewport == "both"))));*/
@@ -203,6 +198,32 @@ export default Vue.extend({
 					.filter(page => page.condition)
 					.filter(page => ((page.viewport == "external") || (page.viewport == "both")));
 			}
+		},
+		flattenedPages(): Array<MenuItem> {
+			let categories: Array<MenuCategory>;
+			categories = Object.keys(Menu)
+					.map(key => Menu[key])
+					.filter(item => item.pages.some(page => ((page.condition) && ((page.viewport == "machine") || (page.viewport == "both")))));
+			let pages: Array<MenuItem>;
+			pages = [];
+			let category: number;
+			let pageItem: any;
+			for (category of categories.keys()) {
+				for (pageItem of this.getPages(categories[category])) {
+					pages.push(pageItem);
+				}
+			}
+			/*for (pageItem in this.getPages(category)) {
+				let key: string;
+				key = String("one");
+				console.log(key);console.log(category);
+				for (pageItem in this.getPages(category)) {
+					console.log(pageItem);
+					pages.push(pageItem);
+				}
+			}*/
+			//console.log(pages);
+			return pages.filter(page => page.path != "/RLPBackDisplay");
 		},
 		updateTitle(): void {
 			if (this.status === MachineStatus.disconnected) {
@@ -312,14 +333,10 @@ export default Vue.extend({
 }
 .v-bottom-navigation {
 	height: 100px !important;
-	overflow-x: scroll;
 }
 .v-item-group.v-bottom-navigation .v-btn {
 	font-size: 30px !important;
 	font-family: "IBM Plex Mono", monospace;
-	padding: 20px;
-	padding-left: 25px;
-	padding-right: 25px;
 }
 
 .v-toolbar__title {

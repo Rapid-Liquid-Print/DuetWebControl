@@ -15,7 +15,7 @@
 		<v-row class="justify-center">
 			<v-col>
 				<v-card id="keypad" :disabled="status!='idle' || idlePurging">
-					<v-card-title class="my-2">
+					<v-card-title >
 						<v-icon class="mr-2">
 							{{ arrowIcon }}
 						</v-icon>
@@ -65,7 +65,6 @@
 									GO
 								</v-btn>
 							</v-row>
-							<br>
 							<br>
 							<v-row>
 								<v-text-field type="number" id="zz" label="Z:" :placeholder=String(axes[2].machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
