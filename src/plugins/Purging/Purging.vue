@@ -205,7 +205,7 @@ export default Vue.extend ({
 		extruders() {
 			var extruders = [];
 			const extrsObj = this.global.get("extrs");
-			for (var i = 0; i < extrsObj.length; i++) {
+			for (var i = 0; i < extrsObj?.length; i++) {
 				extruders.push(extrsObj[i]);
 			}
 			return extruders;

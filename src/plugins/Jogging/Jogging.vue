@@ -25,14 +25,14 @@
 						<v-row>
 							<v-col>
 								<div>
-									<v-btn @click="setupLoc" :disabled='global.get("purge_loc")' block>
+									<v-btn class="rlp-basic" @click="setupLoc" :disabled='global.get("purge_loc")' block>
 										PURGE LOCATION
 									</v-btn>
 								</div>
 							</v-col>
 							<v-col>
 								<div>
-									<v-btn @click="goOrigin" block>
+									<v-btn class="rlp-basic" @click="goOrigin" block>
 										ORIGIN
 									</v-btn>
 								</div>
@@ -41,7 +41,7 @@
 						<v-row>
 							<v-col>
 								<div v-if="mode!=7">
-									<v-btn  color="#00838F" @click="lock" block>
+									<v-btn  class="rlp-utility" @click="lock" block>
 										UNLOCK MACHINE
 									</v-btn>
 								</div>
@@ -61,7 +61,7 @@
 								<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1].machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn color="green" @click="goTo">
+								<v-btn class="rlp-basic" @click="goTo">
 									GO
 								</v-btn>
 							</v-row>
@@ -70,7 +70,7 @@
 								<v-text-field type="number" id="zz" label="Z:" :placeholder=String(axes[2].machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn @click="zGoTo">
+								<v-btn class="rlp-basic" @click="zGoTo">
 									GO
 								</v-btn>
 							</v-row>
@@ -79,7 +79,10 @@
 					</div>
 					<div class="mx-3">
 						<v-col>
-							<v-btn @click="homing('all')" block>
+							<v-btn v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)" class="rlp-home" @click="homing('all')" block>
+								HOME AXES
+							</v-btn>
+							<v-btn v-else class="rlp-utility" @click="homing('all')" block>
 								HOME AXES
 							</v-btn>
 						</v-col>
@@ -515,6 +518,18 @@ export default Vue.extend ({
 	background-color: #2d3236 !important;
 	border: 5px solid;
 	border-color: #4518c0 !important;
+}
+.v-btn.rlp-basic {
+	background-color: #4487be !important;
+	border: 0px solid;
+	border-color: #4518c0 !important;
+	border-radius: 40px !important;
+}
+.v-btn.rlp-utility {
+	background-color: #105a96 !important;
+	border: 0px solid;
+	border-color: #4518c0 !important;
+	border-radius: 40px !important;
 }
 .v-btn.rlp-on {
 	background-color: #862d11 !important;

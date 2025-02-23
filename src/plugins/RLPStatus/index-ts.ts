@@ -12,7 +12,7 @@ registerRoute(RLPStatus, {
       caption: 'Status',
       translated: true,
       path: '/Status',
-      viewport: "both"
+      viewport: "external"
     }
   }
 });
