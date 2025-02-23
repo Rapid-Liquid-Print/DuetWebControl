@@ -9,7 +9,7 @@ registerRoute(Jogging, {
 	Plugins: {
 		Jogging: {
 			icon: 'mdi-arrow-all',
-			caption: 'Jogging',
+			caption: 'Jog',
 			translated: true,
 			path: '/Jogging',
 			viewport: 'machine'

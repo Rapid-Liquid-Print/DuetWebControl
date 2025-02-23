@@ -61,7 +61,7 @@
 									</v-col>
 									<v-col>
 										<div v-if="air==0">
-											<v-btn  color="#00838F" @click="airPressure" block>
+											<v-btn  class="rlp-utility" @click="airPressure" block>
 												AIR ON
 											</v-btn>
 										</div>
@@ -119,7 +119,7 @@
 													Purge
 												</v-btn>
 												<br-->
-												<v-btn color="green" @click="refreshPurge(false)" block>
+												<v-btn class="rlp-basic" @click="refreshPurge(false)" block>
 													PURGE
 												</v-btn>
 												<br>
@@ -149,13 +149,13 @@
 										<br>
 										<div v-if="needle && ratio && time">
 											<div v-if="!idlePurging">
-												<v-btn color="green" @click="idleMode" block>
+												<v-btn class="rlp-utility" @click="idleMode" block>
 													IDLE PURGE
 												</v-btn>
 												<br>
 											</div>
 											<div v-if="idlePurging">
-												<v-btn color="#862d11" @click="stopIdleMode" block>
+												<v-btn class="rlp-on" @click="stopIdleMode" block>
 													END IDLE PURGE
 												</v-btn>
 												<br>
@@ -787,18 +787,29 @@ export default Vue.extend ({
 	height: 60px !important;
 	font-size: 36px;
 	font-family: 'IBM Plex Mono', monospace !important;
-	background-color: #2d3236 !important;
-	border: 5px solid;
+}
+.v-btn.rlp-basic {
+	background-color: #4487be !important;
+	border: 0px solid;
 	border-color: #4518c0 !important;
+	border-radius: 40px !important;
+}
+.v-btn.rlp-utility {
+	background-color: #105a96 !important;
+	border: 0px solid;
+	border-color: #4518c0 !important;
+	border-radius: 40px !important;
 }
 .v-btn.rlp-on {
 	background-color: #862d11 !important;
 	border: 0px;
+	border-radius: 40px !important;
 }
 .v-btn.rlp-home {
 	background-color: #862d11 !important;
 	margin-left: 20px;
 	border: 0px;
+	border-radius: 40px !important;
 }
 .v-card__title {
 	font-size: 25px !important;

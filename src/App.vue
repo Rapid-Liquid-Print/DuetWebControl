@@ -337,6 +337,8 @@ export default Vue.extend({
 .v-item-group.v-bottom-navigation .v-btn {
 	font-size: 30px !important;
 	font-family: "IBM Plex Mono", monospace;
+	margin-left: 25px;
+	margin-right: 25px;
 }
 
 .v-toolbar__title {

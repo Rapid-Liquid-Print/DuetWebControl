@@ -9,7 +9,7 @@ registerRoute(Purging, {
 	Plugins: {
 		Purging: {
 			icon: 'mdi-water-outline',
-			caption: 'Purging',
+			caption: 'Purge',
 			translated: true,
 			path: '/Purging',
 			viewport: 'machine'
