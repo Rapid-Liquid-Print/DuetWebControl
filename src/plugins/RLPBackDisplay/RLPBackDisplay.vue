@@ -9,15 +9,15 @@
 					<span class="param-value">{{ status }}</span>
 				</li>
 
-				<li>
+				<!-- <li>
 					<span class="param-name">TOTAL PART VOLUME</span>
 					<span class="param-value">{{ $displayVolume(undefined, 0) }}</span>
-				</li>
+				</li> -->
 
 				<li>
 					<span class="param-name">EXTRUDED AMOUNT</span>
 					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
-						{{ ["A","B","A2","B2"][index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
+						{{ extruders[index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
 					</span>
 				</li>
 			</ul>
@@ -101,6 +101,14 @@ export default Vue.extend({
 		},
 		global() {
 			return store.state.machine.model.global;
+		},
+		extruders() {
+			var extruders = [];
+			const extrsObj = this.global.get("extrs") ?? ["A","B","A2","B2"];
+			for (var i = 0; i < extrsObj?.length; i++) {
+				extruders.push(extrsObj[i]);
+			}
+			return extruders;
 		},
 		status() {
 			return this.modes[this.global.get("mode")];
