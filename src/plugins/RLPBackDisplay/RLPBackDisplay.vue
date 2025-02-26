@@ -6,32 +6,7 @@
 			<ul class="print-info" style="float: left;">
 				<li>
 					<span class="param-name">STATUS</span>
-					<span class="param-value">{{ status }}</span>
-				</li>
-
-				<!-- <li>
-					<span class="param-name">TOTAL PART VOLUME</span>
-					<span class="param-value">{{ $displayVolume(undefined, 0) }}</span>
-				</li> -->
-
-				<li>
-					<span class="param-name">EXTRUDED AMOUNT</span>
-					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
-						{{ extruders[index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
-					</span>
-				</li>
-			</ul>
-
-			<div class="tank-outline"></div>
-
-			<ul class="print-info" style="float: right;">
-				<li>
-					<span class="param-name">CURRENT JOB</span>
-					<span class="param-value animation-wrapper">
-						<span class="animated-text" ref="fileNameBox">
-							{{ $display(jobFile?.fileName) }}
-						</span>
-					</span>
+					<span class="param-value">{{ status ?? "disconnected" }}</span>
 				</li>
 
 				<li>
@@ -49,6 +24,33 @@
 				<li>
 					<span class="param-name">EXTRUSION RATE</span>
 					<span class="param-value">{{ $displayExtrusionRate(currentMove.extrusionRate) }}</span>
+				</li>
+
+
+			</ul>
+
+			<div class="tank-outline"></div>
+
+			<ul class="print-info" style="float: right;">
+				<li>
+					<span class="param-name">CURRENT JOB</span>
+					<span class="param-value animation-wrapper">
+						<span class="animated-text" ref="fileNameBox">
+							{{ $display(jobFile?.fileName) }}
+						</span>
+					</span>
+				</li>
+
+				<!-- <li>
+					<span class="param-name">TOTAL PART VOLUME</span>
+					<span class="param-value">{{ $displayVolume(undefined, 0) }}</span>
+				</li> -->
+
+				<li>
+					<span class="param-name">EXTRUDED AMOUNT</span>
+					<span class="param-value" v-for="(extruder, index) in extruderData" :key="index">
+						{{ extruders[index] }}: {{ $displayVolume(model.move.extruders[index].position, 0) }}
+					</span>
 				</li>
 
 				<li>
