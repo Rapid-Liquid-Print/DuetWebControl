@@ -14,7 +14,7 @@
 		</v-row>
 		<v-row class="justify-center">
 			<v-col>
-				<v-card id="keypad" :disabled="status!='idle' || idlePurging">
+				<v-card id="keypad" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)'>
 					<v-card-title >
 						<v-icon class="mr-2">
 							{{ arrowIcon }}
@@ -25,14 +25,14 @@
 						<v-row>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" @click="setupLoc" :disabled='global.get("purge_loc")' block>
+									<v-btn class="rlp-basic" :disabled='(mode==7)||(global.get("purge_loc"))' @click="setupLoc" block>
 										PURGE LOCATION
 									</v-btn>
 								</div>
 							</v-col>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" @click="goOrigin" block>
+									<v-btn class="rlp-basic" :disabled="mode==7" @click="goOrigin" block>
 										ORIGIN
 									</v-btn>
 								</div>
@@ -55,22 +55,22 @@
 						<br>
 						<v-col>
 							<v-row>
-								<v-text-field type="number" id="xx" label="X:" :placeholder=String(axes[0].machinePosition) persistent-placeholder v-model="xInp"></v-text-field>
+								<v-text-field type="number" id="xx" label="X:" :placeholder=String(axes[0]?.machinePosition) persistent-placeholder v-model="xInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1].machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
+								<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1]?.machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn class="rlp-basic" @click="goTo">
+								<v-btn class="rlp-basic" :disabled="mode==7" @click="goTo">
 									GO
 								</v-btn>
 							</v-row>
 							<br>
 							<v-row>
-								<v-text-field type="number" id="zz" label="Z:" :placeholder=String(axes[2].machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
+								<v-text-field :disabled="mode==7" type="number" id="zz" label="Z:" :placeholder=String(axes[2]?.machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn class="rlp-basic" @click="zGoTo">
+								<v-btn class="rlp-basic" :disabled="mode==7" @click="zGoTo">
 									GO
 								</v-btn>
 							</v-row>
@@ -79,10 +79,10 @@
 					</div>
 					<div class="mx-3">
 						<v-col>
-							<v-btn v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)" class="rlp-home" @click="homing('all')" block>
+							<v-btn v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)" :disabled="mode==7" class="rlp-home" @click="homing('all')" block>
 								HOME AXES
 							</v-btn>
-							<v-btn v-else class="rlp-utility" @click="homing('all')" block>
+							<v-btn v-else class="rlp-utility" :disabled="mode==7" @click="homing('all')" block>
 								HOME AXES
 							</v-btn>
 						</v-col>
@@ -245,12 +245,11 @@ export default Vue.extend ({
 			return { width, height };
 		},
 		async lock() {
-			// don't allow locking/unlocking if in the wrong mode!!! add in actual function here
-			if (this.mode != 7) {
-				await this.sendCode("set global.mode=7");
+			if (this.mode == 7) {
+				await this.sendCode('M98 P"/macros/lock_machine.g"');
 			}
-			else {
-				await this.sendCode("set global.mode=2");
+			else if (this.mode != 7) {
+				await this.sendCode('M98 P"/macros/unlock_machine.g"');
 			}
 		},
 		async homing(axis) {
@@ -266,7 +265,7 @@ export default Vue.extend ({
 					}, 400);
 				}
 				else if (axis == "x") {
-					await this.sendCode('M98 p"homez.g"');
+					await this.sendCode('M98 P"homez.g"');
 					this.codeReply = this.sendCode('M98 P"homex.g"');
 					setTimeout(() => {
 						var homed = document.getElementById("homedCard");
@@ -277,7 +276,7 @@ export default Vue.extend ({
 					}, 400);
 				}
 				else if (axis == "y") {
-					await this.sendCode('M98 p"homez.g"');
+					await this.sendCode('M98 P"homez.g"');
 					this.codeReply = this.sendCode('M98 P"homey.g"');
 					setTimeout(() => {
 						var homed = document.getElementById("homedCard");
@@ -398,7 +397,7 @@ export default Vue.extend ({
 		},
 		async setupLoc() {
 			if (this.global.get("mode") == 2) {
-				await this.sendCode('M98 p"/macros/go_purge.g"');
+				await this.sendCode('M98 P"/macros/go_purge.g"');
 			}
 			else if (this.global.get("purge_loc") == true) {
 				this.sendCode('echo "You are already in purge location."');
@@ -534,11 +533,13 @@ export default Vue.extend ({
 .v-btn.rlp-on {
 	background-color: #862d11 !important;
 	border: 0px;
+	border-radius: 40px !important;
 }
 .v-btn.rlp-home {
 	background-color: #862d11 !important;
 	margin-left: 20px;
 	border: 0px;
+	border-radius: 40px !important;
 }
 .v-card__title {
 	font-size: 25px !important;

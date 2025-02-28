@@ -17,14 +17,14 @@
 			<v-col>
 				<v-card>
 					<job-control-panel class="rlp-machine-job-control"/>
-					<v-checkbox class="px-4" label="Run Clean Purge at End" v-model='global["cleanPurge"]' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
+					<v-checkbox class="px-4" label="Run Clean Purge at End" v-model='cleanpurge' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
 				</v-card>
 			</v-col>
 		</v-row>
 		
 		<v-row v-if="(status!='processing')&&(status!='paused')&&(status!='pausing')&&(status!='resuming')&&(status!='cancelling')&&(status!='simulating')" class="justify-center">
 			<v-col>
-				<v-card id="purging" :disabled="status!='idle'">
+				<v-card id="purging" :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))'>
 					<v-card-title>
 						<v-icon class="mr-2">
 							{{ purgeIcon }}
@@ -202,6 +202,9 @@ export default Vue.extend ({
 		global() {
 			return store.state.machine.model.global;
 		},
+		cleanpurge() {
+			return this.global.get("cleanPurge");
+		},
 		extruders() {
 			var extruders = [];
 			const extrsObj = this.global.get("extrs");
@@ -247,6 +250,9 @@ export default Vue.extend ({
 			ready: false,
 			loading: false,
 			errorMessage: null,
+
+			modes: ["unhomed", "homing", "idle", "moving", "estop", "purging", "status", "loading tank",],
+			modeCategories: ["waiting", "waiting", "waiting", "moving", "problem", "moving", "waiting", "waiting",],
 
 			// RLP data
 			needle: 0.5,
@@ -821,7 +827,7 @@ export default Vue.extend ({
 .v-expansion-panel-header {
 	font-size: 25px !important;
 }
-.job-control-panel.rlp-machine-job-control {
+.job-control-panel.rlp-machine-job-control .v-btn{
 	font-size: 36px !important;
 }
 </style scoped>

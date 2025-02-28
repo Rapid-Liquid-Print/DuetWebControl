@@ -13,8 +13,22 @@ td {
 </style>
 
 <style>
+@media (width > 800px) {
 .base-file-list th {
 	white-space: nowrap;
+}
+}
+@media (width <= 800px) {
+.v-data-table.base-file-list .v-data-table__wrapper td {
+	white-space: nowrap;
+	line-height: 3.5 !important;
+	font-size: 27px !important;
+}
+}
+@media (width <= 800px) {
+.v-data-table.base-file-list .v-data-table__wrapper.table.tbody.tr.td.pl-0 {
+	font-size: 1rem !important;
+}
 }
 </style>
 
