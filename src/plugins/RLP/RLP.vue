@@ -417,10 +417,12 @@ export default Vue.extend ({
 			return store.state.machine.model.state.status;
 		},
 		air() {
-			return store.state.machine.model.state?.gpOut[1].actualValue;
+			//console.log(store.state.machine.model.state);
+			return store.state.machine.model.state.gpOut[1].pwm;
 		},
 		light() {
-			return store.state.machine.model.state?.gpOut[3].actualValue;
+			//console.log(store.state.machine.model.state);
+			return store.state.machine.model.state.gpOut[3].pwm;
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),
@@ -1095,8 +1097,8 @@ export default Vue.extend ({
 				await this.sendCode("G1 E"+String(aS)+":"+String(bS));
 			}
 			else if (this.needle == 0.5) {
-				aS = -1*(4.4 * (tempRat/(tempRat+1)));
-				bS = -1*(4.4 / (tempRat+1));
+				aS = -1*(6 * (tempRat/(tempRat+1)));
+				bS = -1*(6 / (tempRat+1));
 				console.log(this.makeExtrusionString(200));
 				await this.sendCode("G1 "+this.makeExtrusionString(200));
 				await this.sendCode("G1 E"+String(aS)+":"+String(bS));
