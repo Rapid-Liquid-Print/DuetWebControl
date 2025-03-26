@@ -417,10 +417,10 @@ export default Vue.extend ({
 			return store.state.machine.model.state.status;
 		},
 		air() {
-			return store.state.machine.model.fans[0].actualValue;
+			return store.state.machine.model.state?.gpOut[1].actualValue;
 		},
 		light() {
-			return store.state.machine.model.fans[4].actualValue;
+			return store.state.machine.model.state?.gpOut[3].actualValue;
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),
