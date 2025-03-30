@@ -69,7 +69,7 @@
 										</v-row>
 										<div v-if="adds[index-2][1]">
 											<v-row>
-												<v-text-field type="number" :id="adds[index-2][0]" :placeholder="String(adds[index-2][2])" persistent-placeholder clearable @click:clear="refreshAdd($event, index-2)" @change="refreshAdd($event, index-2)" @blur="refreshAdd($event, index-2)"></v-text-field>
+												<v-text-field type="number" :id="adds[index-2][0]" v-model="adds[index-2][2]" :placeholder="String(adds[index-2][2])" persistent-placeholder clearable @click:clear="refreshAdd($event, index-2)" @change="refreshAdd($event, index-2)" @blur="refreshAdd($event, index-2)"></v-text-field>
 												<!--label for="adds[index-2][0]" class="text-left">
 													{{ $display(parseFloat(adds[index-2][2])) }}
 												</label-->
