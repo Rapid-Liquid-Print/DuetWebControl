@@ -49,9 +49,9 @@
 								<v-btn value=1 color='gray' id="ratBtn1">
 									1:1
 								</v-btn>
-								<v-btn value=0.1 color='gray' id="ratBtn2">
+								<!--v-btn value=0.1 color='gray' id="ratBtn2">
 									1:10
-								</v-btn>
+								</v-btn-->
 							</v-btn-toggle>
 							<br>
 							<div v-if="extruders>2">
@@ -62,17 +62,14 @@
 								<v-row v-for="(extruder, index) in extruders" :key="index" class="mx-4">
 									<div v-if="index > 1">
 										<v-row>
-											<input type="checkbox" label='[A2,B2,El,Fl,Gl,Hl,Il,Jl,Kl,Ll,Ml,Nl,Ol,Pl,Ql,Rl,Sl,Tl,Ul,Vl,Wl][index-2]' v-model='adds[index-2][1]' @change="refreshAdd($event, index-2)">
+											<input type="checkbox" label="[A2,B2,El,Fl,Gl,Hl,Il,Jl,Kl,Ll,Ml,Nl,Ol,Pl,Ql,Rl,Sl,Tl,Ul,Vl,Wl][index-2]" v-model="adds[index-2][1]" @change="refreshAddBox($event, index-2)">
 											<label for="[A2,B2,El,Fl,Gl,Hl,Il,Jl,Kl,Ll,Ml,Nl,Ol,Pl,Ql,Rl,Sl,Tl,Ul,Vl,Wl][index-2]" class="text-center mx-2">
 												{{ $t(adds[index-2][0]) }}
 											</label>
 										</v-row>
 										<div v-if="adds[index-2][1]">
 											<v-row>
-												<v-text-field type="number" :id="adds[index-2][0]" v-model="adds[index-2][2]" :placeholder="String(adds[index-2][2])" persistent-placeholder clearable @click:clear="refreshAdd($event, index-2)" @change="refreshAdd($event, index-2)" @blur="refreshAdd($event, index-2)"></v-text-field>
-												<!--label for="adds[index-2][0]" class="text-left">
-													{{ $display(parseFloat(adds[index-2][2])) }}
-												</label-->
+												<v-text-field type="number" :id="adds[index-2][0]" :placeholder="String(adds[index-2][2])" persistent-placeholder clearable @input="refreshAdd($event, index-2)"/>
 											</v-row>
 										</div>
 										<br>
@@ -86,8 +83,8 @@
 							<div>
 								<v-row class="text-center mx-2">
 									<!--v-text-field type="number" :id="ratios[index][0]+'custom'" :label="ratios[index][0]" :placeholder="String(ratios[index][2])" persistent-placeholder clearable @click:clear="refreshRatio($event, index)" @change="refreshRatio($event, index)" @blur="refreshRatio($event, index)"></v-text-field-->
-									<v-text-field type="number" id="ratInp1" value=1 label="A:" v-model="aInp" clearable @click:clear="refreshRatio" @change="refreshRatio" @blur="refreshRatio"></v-text-field>
-									<v-text-field type="number" id="ratInp2" value=1 label="B:" v-model="bInp" clearable @click:clear="refreshRatio" @change="refreshRatio" @blur="refreshRatio"></v-text-field>
+									<v-text-field type="number" id="ratInp1" value=1 label="A:" v-model="aInp" clearable @input="refreshRatio($event, 'A')"></v-text-field>
+									<v-text-field type="number" id="ratInp2" value=1 label="B:" v-model="bInp" clearable @input="refreshRatio($event, 'B')"></v-text-field>
 								</v-row>
 							</div>
 							<br>
@@ -130,10 +127,10 @@
 										Purge
 									</v-btn>
 									<br>
-									<!--br>
-									<v-btn color="teal" @click="printString" block>
+									<!--v-btn color="teal" @click="printString" block>
 										Print Extrusion String
-									</v-btn-->
+									</v-btn>
+									<br-->
 								</div>
 							</div>
 							<div v-if="needle && ratio && time">
@@ -498,6 +495,9 @@ export default Vue.extend ({
 		log() {
 			console.log(process.env.BASE_URL);
 		},
+		lognew() {
+			console.log("updating");
+		},
 		resize() {
 			if (!this.isActive) {
 				return;
@@ -531,7 +531,7 @@ export default Vue.extend ({
 			}*/
 			return { width, height };
 		},
-		refreshRatio() {
+		refreshRatio(event, side) {
 			/*var tempRatioInput;
 			var tempRatio;
 			for (var i = 0; i < move.extruders.length; i++) {
@@ -551,58 +551,64 @@ export default Vue.extend ({
 			var btn2 = document.getElementById("ratBtn2");
 			var inp1 = document.getElementById("ratInp1");
 			var inp2 = document.getElementById("ratInp2");
-			this.aInp = parseFloat(inp1.value);
-			this.bInp = parseFloat(inp2.value);
+			//this.aInp = parseFloat(inp1.value);
+			//this.bInp = parseFloat(inp2.value);
+			if (side == "A") {
+				this.aInp = parseFloat(event);
+			}
+			if (side == "B") {
+				this.bInp = parseFloat(event);
+			}
 			if ((this.aInp != 1 && String(this.aInp) != String(Number.NaN)) && (this.bInp == 1 || String(this.bInp) == String(Number.NaN))) {
 				this.ratio = this.aInp;
-				btn1.disabled = true;
-				btn2.disabled = true;
+				//btn1.disabled = true;
+				//btn2.disabled = true;
 			}
 			else if ((this.aInp != 1 && String(this.aInp) != String(Number.NaN)) && (this.bInp != 1 &&  String(this.bInp) != String(Number.NaN))) {
 				this.ratio = (this.aInp / this.bInp);
-				btn1.disabled = true;
-				btn2.disabled = true;
+				//btn1.disabled = true;
+				//btn2.disabled = true;
 			}
 			else if ((this.aInp == 1 || String(this.aInp) == String(Number.NaN)) && (this.bInp != 1 && String(this.bInp) != String(Number.NaN))) {
 				this.ratio = (1 / this.bInp);
-				btn1.disabled = true;
-				btn2.disabled = true;
+				//btn1.disabled = true;
+				//btn2.disabled = true;
 			}
 			else {
 				this.ratio = undefined;
-				btn1.disabled = false;
-				btn2.disabled = false;
+				//btn1.disabled = false;
+				//btn2.disabled = false;
 			}
 			this.makeRatioString();
 		},
-		refreshAdd(event, add = 0) {
-			if (event.target.type == "checkbox") {
-				if(!event.target.checked) {
-					this.adds[add][1] = false;
-					this.totAdditive = this.totAdditive - this.adds[add][2];
-					this.adds[add][2] = 0;
-				}
-				this.makeRatioString();
-				return;
-			}
-			if (event.target.value == 0 || event.target.value == undefined) {
+		refreshAddBox(event, add = 0) {
+			if(!event.target.checked) {
+				this.adds[add][1] = false;
 				this.totAdditive = this.totAdditive - this.adds[add][2];
 				this.adds[add][2] = 0;
-				event.target.value = undefined;
+			}
+			this.makeRatioString();
+			return;
+		},
+		refreshAdd(event, add = 0) {
+			const value = parseFloat(event);
+			if (value == 0 || value == undefined) {
+				this.totAdditive = this.totAdditive - this.adds[add][2];
+				this.adds[add][2] = 0;
+				value = undefined;
 				this.makeRatioString();
 				return;
 			}
-			var newAdd = parseFloat((document.getElementById(event.target.id)).value) / 100;
+			const newAdd = value / 100;
 			if (this.adds[add][2] != 0) {
 				this.totAdditive = this.totAdditive - this.adds[add][2] + newAdd;
 				this.adds[add][2] = newAdd;
-				event.target.value = undefined;
 				this.makeRatioString();
 				return;
 			}
 			this.totAdditive = this.totAdditive + newAdd;
 			this.adds[add][2] = newAdd;
-			event.target.value = undefined;
+			//event.target.value = undefined;
 			this.makeRatioString();
 		},
 		makeRatioString() {		// THIS WILL NOT WORK FOR D+ ADDITIVES THAT WON'T BE GOING INTO B
@@ -647,8 +653,12 @@ export default Vue.extend ({
 						b1 = (1 / Number(this.ratio)) * b1perc;
 						b2 = (1 / Number(this.ratio)) * b2perc;
 					}
-					else {
+					else if (this.ratio == 1) {
 						b1 = 1;
+						b2 = 0;
+					}
+					else {
+						b1 = (1 / Number(this.ratio));
 						b2 = 0;
 					}
 					this.ratioString = String(a1.toFixed(3)) + ":" + String(b1.toFixed(3)) + ":" + String(a2.toFixed(3)) + ":" + String(b2.toFixed(3));
@@ -691,6 +701,7 @@ export default Vue.extend ({
 							this.ratioString = "1:1:0:0";
 						}
 						else {
+							console.log("here");
 							this.ratioString = String((Number(this.ratio)).toFixed(3)) + ':1:0:0';
 						}
 					}
@@ -1334,113 +1345,7 @@ export default Vue.extend ({
 		await this.resize();
 		this.showCodeReplyNotifications();
 		//window.addEventListener("load", this.startRendering());
-		window.addEventListener("keydown", (e) => {
-			var key = e.code;
-			switch (key) {
-				case "ArrowLeft":	//left
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else {
-						this.started = true;
-						this.sendTheCode("G1 X", -10, 0);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				case "ArrowUp":	//up
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else {
-						this.started = true;
-						this.sendTheCode("G1 Y", 10, 1);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				case "ArrowRight":	//right
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else{
-						this.started = true;
-						this.sendTheCode("G1 X", 10, 0);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				case "ArrowDown":	//down
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else {
-						this.started = true;
-						this.sendTheCode("G1 Y", -10, 1);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				case "PageUp":	//pageup
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else {
-						this.started = true;
-						this.sendTheCode("G1 Z", 10, 2);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				case "PageDown":	//pagedown
-					if (String(document.activeElement) == "[object HTMLInputElement]") {
-						break;
-					}
-					else if (this.statusthing != "idle") {
-						break;
-					}
-					else if (this.global.get("mode") != 2) {
-						break;
-					}
-					else {
-						this.started = true;
-						this.sendTheCode("G1 Z", -10, 2);
-						this.started = false;
-						e.preventDefault();
-						break;
-					}
-				}
-			});
+		
 		this.ready = true;
 	},
 	watch: {	},
