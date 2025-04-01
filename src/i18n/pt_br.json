@@ -723,6 +723,10 @@
       "unitInches": "polegadas",
       "unitMm": "milímetros",
       "unitMmSpeed": "mm/s",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "Controle de cama de solteiro",
       "groupTools": "Agrupar ferramentas idênticas",
       "singleChamberControl": "Controle de câmara única"

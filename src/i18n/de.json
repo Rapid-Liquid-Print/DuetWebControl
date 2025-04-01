@@ -721,8 +721,12 @@
       "unitInches": "Inch",
       "unitInch": "in",
       "unitMm": "mm",
+      "unitMl": "ml",
+      "unitOunce": "oz",
       "unitInchSpeed": "ipm",
       "unitMmSpeed": "mm/s",
+      "unitOunceSpeed": "ozpm",
+      "unitMlSpeed": "ml/min",
       "singleBedControl": "Einzelbettsteuerung",
       "groupTools": "Identische Werkzeuge gruppieren",
       "singleChamberControl": "Einkammersteuerung"

@@ -720,8 +720,12 @@
       "unitInches": "inches",
       "unitInch": "in",
       "unitMm": "mm",
+      "unitMl": "ml",
+      "unitOunce": "oz",
       "unitInchSpeed": "ipm",
       "unitMmSpeed": "mm/s",
+      "unitOunceSpeed": "ozpm",
+      "unitMlSpeed": "ml/min",
       "singleBedControl": "Single bed control",
       "groupTools": "Group identical tools",
       "singleChamberControl": "Single chamber control"

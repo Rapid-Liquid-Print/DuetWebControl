@@ -95,15 +95,18 @@ a:not(:hover) {
 								<span>
 									{{ $display(move.extruders[index].position*0.05, 3) }}
 								</span-->
-							<v-row v-if="model.global.extruder_num>2">
+							<v-row v-if="extruder_num>2">
 								<v-col v-for="(extruder, index) in model.move.extruders" :key="index" class="d-flex flex-column align-center">
 									<strong>
 										<div>
-										{{ $t(["A","B","A2","B2","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"][index]) }}
+										{{ $t(["A1","B1","A2","B2","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"][index]) }}
 										</div>
 									</strong>
 									<span>
-										<div>
+										<div v-if="index<2">
+											{{ $display((parseFloat(model.move.extruders[index].position) - parseFloat(model.move.extruders[index+2].position))*0.05, 0) }}
+										</div>
+										<div v-else>
 											{{ $display(model.move.extruders[index].position*0.05, 0) }}
 										</div>
 									</span>
@@ -182,6 +185,15 @@ a:not(:hover) {
 						</strong>
 						<span>
 							{{ $displayMoveSpeed(model.move.currentMove.topSpeed) }}
+						</span>
+					</v-col>
+					<v-col>
+						<strong>
+							Flow Rate
+						</strong>
+						<br>
+						<span>
+							{{ $displayExtrusionRate(model.move.currentMove.extrusionRate)}}
 						</span>
 					</v-col>
 					<!--v-col v-if="isFinite(model.move.currentMove.extrusionRate) && isFFForUnset"
@@ -315,6 +327,9 @@ export default Vue.extend({
 		},
 		model(): ObjectModel {
 			return store.state.machine.model;
+		},
+		extruder_num(): Number {
+			return parseInt(store.state.machine.model.global.get("extruder_num"));
 		},
 		isFFForUnset(): boolean {
 			if (store.state.settings.dashboardMode === DashboardMode.default) {

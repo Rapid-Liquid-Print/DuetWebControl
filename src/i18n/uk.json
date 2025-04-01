@@ -722,6 +722,10 @@
       "unitMm": "mm",
       "unitInchSpeed": "ipm",
       "unitMmSpeed": "mm/s",
+      "unitMl": "ml",
+      "unitMlSpeed": "ml/min",
+      "unitOunce": "oz",
+      "unitOunceSpeed": "ozpm",
       "singleBedControl": "Контроль столом",
       "groupTools": "Група ідентичних інструментів",
       "singleChamberControl": "Контроль термокамерою"
