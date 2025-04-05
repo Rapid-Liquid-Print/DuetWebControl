@@ -1,6 +1,6 @@
 <template>
 	<div style="min-height: 33vh;">
-		<button @click="toggleFullscreen">Toggle Fullscreen</button>
+		<button class="fullscreen-toggle" @click="toggleFullscreen">Toggle Fullscreen</button>
 		<div ref="fullscreenElement" class="fullscreen-content" :class="statusCategory">
 			<div class="glowing-border"></div>
 			<ul class="print-info" style="float: left;">
@@ -216,15 +216,25 @@ export default Vue.extend({
 <style scoped>
 
 .fullscreen-content {
-	width: 100%;
-	min-height: 600px;
+	width: calc(100% + 256px);
+	height: 100%;
 	background-color: #f4f4f4;
-	position: relative;
-	/*font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;*/
+	position: absolute;
+	top: 0;
+	left: -256px;
+	z-index: 10;
 	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
 	font-size: 16px;
 	overflow: hidden;
+}
+
+.fullscreen-toggle {
+	position: absolute;
+	top: 0;
+	left: -256px;
+	z-index: 11;
+	padding: 0 1em;
 }
 
 .glowing-border {
