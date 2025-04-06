@@ -288,12 +288,13 @@ export default Vue.extend({
 ul.print-info {
 	list-style: none;
 	width: calc((95 - 50) / 95 * 100% / 2);
-	margin-top: calc((54 - 50) / 95 * 100%);
+	margin-top: calc((54 - 50) / 75 * 100%);
 	padding: 0 48px;
+	font-size: x-large;
 }
 
 li {
-	margin-top: 24px;
+	margin-top: 1em;
 }
 
 li .param-name {
@@ -311,14 +312,14 @@ li::before {
 	display: inline-block;
 	background-color: #888888;
 	margin-right: 8px;
-	width: 12px;
-	height: 12px;
+	width: .7em;
+	height: .7em;
 	content: "";
 }
 
 .animation-wrapper {
 	position: relative;
-	padding-bottom: 24px; /* compensate for the animated text because it is absolutely positioned & so its height is not considered */
+	padding-bottom: 2em; /* compensate for the animated text because it is absolutely positioned & so its height is not considered */
 	overflow: hidden;
 }
 
