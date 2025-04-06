@@ -282,7 +282,7 @@ export default Vue.extend({
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%, 0);
-	box-shadow: 0 0 10px 10px white;
+	box-shadow: 0 0 36px 36px white;
 }
 
 ul.print-info {
