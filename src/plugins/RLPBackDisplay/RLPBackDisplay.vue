@@ -1,9 +1,9 @@
 <template>
 	<div style="min-height: 33vh;">
-		<button class="fullscreen-toggle" @click="toggleFullscreen">Toggle Fullscreen</button>
+		<!-- <button class="fullscreen-toggle" @click="toggleFullscreen">Toggle Fullscreen</button> -->
 		<div ref="fullscreenElement" class="fullscreen-content" :class="statusCategory">
 			<div class="glowing-border"></div>
-			<ul class="print-info" style="float: left;">
+			<ul class="print-info" style="left: 0;">
 				<li>
 					<span class="param-name">STATUS</span>
 					<span class="param-value">{{ status ?? "disconnected" }}</span>
@@ -31,7 +31,7 @@
 
 			<div class="tank-outline"></div>
 
-			<ul class="print-info" style="float: right;">
+			<ul class="print-info" style="right: 0;">
 				<li>
 					<span class="param-name">CURRENT JOB</span>
 					<span class="param-value animation-wrapper">
@@ -218,13 +218,13 @@ export default Vue.extend({
 <style scoped>
 
 .fullscreen-content {
-	width: calc(100% + 256px);
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	background-color: #f4f4f4;
 	position: absolute;
-	top: 0;
+	top: -64px;
 	left: -256px;
-	z-index: 10;
+	z-index: 100;
 	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
 	font-size: 16px;
@@ -276,8 +276,8 @@ export default Vue.extend({
 
 .tank-outline {
 	position: absolute;
-	width: calc(50 / 95 * 100%);
-	height: calc(50 / 54 * 100%);
+	width: calc(56 / 95 * 100vw);
+	height: 100vh;
 	background-color: white;
 	bottom: 0;
 	left: 50%;
@@ -286,10 +286,12 @@ export default Vue.extend({
 }
 
 ul.print-info {
+	position: absolute;
+	bottom: 0;
 	list-style: none;
-	width: calc((95 - 50) / 95 * 100% / 2);
-	margin-top: calc((54 - 50) / 75 * 100%);
-	padding: 0 48px;
+	width: calc((95 - 56) / 95 * 100% / 2);
+	margin-bottom: 72px;
+	padding: 0 48px 0 72px;
 	font-size: x-large;
 }
 
