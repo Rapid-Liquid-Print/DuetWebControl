@@ -327,13 +327,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+html,
 .v-application {
 	font-family: 'Work Sans', sans-serif !important;
 	font-size: 30px !important;
 	scrollbar-width: none;
 }
-.v-application::-webkit-scrollbar {
+::-webkit-scrollbar {
 	display: none;
+	width: 0;
 }
 
 .v-bottom-navigation {

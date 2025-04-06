@@ -224,7 +224,7 @@ export default Vue.extend({
 	position: absolute;
 	top: -64px;
 	left: -256px;
-	z-index: 100;
+	z-index: 10;
 	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
 	font-size: 16px;
@@ -241,6 +241,7 @@ export default Vue.extend({
 
 .glowing-border {
 	position: absolute;
+	z-index: 20;
 	width: 100%;
 	height: calc(100% + 20px);
 	animation: pulse-color 6s infinite linear;
