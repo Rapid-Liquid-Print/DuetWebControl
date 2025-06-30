@@ -4,7 +4,7 @@
 			<v-icon small class="mr-1">mdi-wrench</v-icon>
 			{{ $t("panel.jobControl.caption") }}
 		</v-card-title>
-
+		<br>
 		<v-card-text class="pt-0">
 			<code-btn color="warning" block :disabled="uiFrozen || !isPrinting || isPausing || isCancelling"
 					  :code="isPaused ? 'M24' : 'M25'" tabindex="0">

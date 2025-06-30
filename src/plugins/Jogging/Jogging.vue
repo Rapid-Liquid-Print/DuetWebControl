@@ -14,7 +14,7 @@
 		</v-row>
 		<v-row class="justify-center">
 			<v-col>
-				<v-card id="keypad" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)'>
+				<v-card id="keypad">
 					<v-card-title >
 						<v-icon class="mr-2">
 							{{ arrowIcon }}
@@ -25,14 +25,14 @@
 						<v-row>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" :disabled='(mode==7)||(global.get("purge_loc"))' @click="setupLoc" block>
+									<v-btn class="rlp-basic" @click="setupLoc" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' block>
 										PURGE LOCATION
 									</v-btn>
 								</div>
 							</v-col>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" :disabled="mode==7" @click="goOrigin" block>
+									<v-btn class="rlp-basic" :disabled='(((status!="idle")||idlePurging)||((mode!=2)))&&(mode!=7)' @click="goOrigin" block>
 										ORIGIN
 									</v-btn>
 								</div>
@@ -75,7 +75,7 @@
 								<v-text-field type="number" id="yy" label="Y:" :placeholder=String(axes[1]?.machinePosition) persistent-placeholder v-model="yInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn class="rlp-basic" :disabled="mode==7" @click="goTo">
+								<v-btn class="rlp-basic" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' @click="goTo">
 									GO
 								</v-btn>
 							</v-row>
@@ -84,7 +84,7 @@
 								<v-text-field :disabled="mode==7" type="number" id="zz" label="Z:" :placeholder=String(axes[2]?.machinePosition) persistent-placeholder v-model="zInp"></v-text-field>
 							</v-row>
 							<v-row>
-								<v-btn class="rlp-basic" :disabled="mode==7" @click="zGoTo">
+								<v-btn class="rlp-basic" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' @click="zGoTo">
 									GO
 								</v-btn>
 							</v-row>
@@ -96,7 +96,7 @@
 							<v-btn v-if="(!this.axes[0]?.homed) || (!this.axes[1]?.homed) || (!this.axes[2]?.homed)" :disabled="mode==7" class="rlp-home" @click="homing('all')" block>
 								HOME AXES
 							</v-btn>
-							<v-btn v-else class="rlp-utility" :disabled="mode==7" @click="homing('all')" block>
+							<v-btn v-else class="rlp-utility" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' @click="homing('all')" block>
 								HOME AXES
 							</v-btn>
 						</v-col>

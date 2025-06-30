@@ -38,14 +38,14 @@
 								<v-row>
 									<v-col>
 										<div>
-											<v-btn class="rlp-basic" @click="refreshPurge(true)"  block>
+											<v-btn class="rlp-basic" @click="refreshPurge(true)" :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))' block>
 												1:1 PURGE
 											</v-btn>
 										</div>
 									</v-col>
 									<v-col>
 										<div>
-											<v-btn class="rlp-basic" @click='cleanPurging' block>
+											<v-btn class="rlp-basic" @click='cleanPurging' :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))' block>
 												CLEAN PURGE
 											</v-btn>
 										</div>
@@ -119,7 +119,7 @@
 													Purge
 												</v-btn>
 												<br-->
-												<v-btn class="rlp-basic" @click="refreshPurge(false)" block>
+												<v-btn class="rlp-basic" @click="refreshPurge(false)" :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))' block>
 													PURGE
 												</v-btn>
 												<br>
@@ -149,7 +149,7 @@
 										<br>
 										<div v-if="needle && ratio && time">
 											<div v-if="!idlePurging">
-												<v-btn class="rlp-utility" @click="idleMode" block>
+												<v-btn class="rlp-utility" @click="idleMode" :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))' block>
 													IDLE PURGE
 												</v-btn>
 												<br>
@@ -660,8 +660,8 @@ export default Vue.extend ({
 			else if (this.needle == 0.5) {
 				aS = -1*(4.4 * (tempRat/(tempRat+1)));
 				bS = -1*(4.4 / (tempRat+1));
-				console.log(this.makeExtrusionString(200, one));
-				await this.sendCode("G1 "+this.makeExtrusionString(200, one));
+				console.log(this.makeExtrusionString(270, one));
+				await this.sendCode("G1 "+this.makeExtrusionString(270, one));
 				await this.sendCode("G1 E"+String(aS)+":"+String(bS));
 			}
 			await this.sendCode("M400");

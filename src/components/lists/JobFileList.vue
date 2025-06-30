@@ -19,7 +19,7 @@
 			<v-btn class="hidden-sm-and-down mr-3" :disabled="uiFrozen" :elevation="1" @click="showNewDirectory = true">
 				<v-icon class="mr-1">mdi-folder-plus</v-icon> {{ $t("button.newDirectory.caption") }}
 			</v-btn>
-			<v-btn class="hidden-sm-and-down mr-3" color="info" :loading="loading || fileinfoProgress !== -1"
+			<v-btn class=" mr-3" color="info" :loading="loading || fileinfoProgress !== -1"
 				   :disabled="uiFrozen" :elevation="1" @click="refresh">
 				<v-icon class="mr-1">mdi-refresh</v-icon> {{ $t("button.refresh.caption") }}
 			</v-btn>
@@ -73,7 +73,7 @@
 			</template>
 		</base-file-list>
 
-		<v-speed-dial v-model="fab" bottom right fixed direction="top" transition="scale-transition"
+		<!--v-speed-dial v-model="fab" bottom right fixed direction="top" transition="scale-transition"
 					  class="hidden-md-and-up">
 			<template #activator>
 				<v-btn v-model="fab" dark color="primary" fab>
@@ -93,7 +93,7 @@
 			<upload-btn fab dark :directory="directory" target="gcodes" color="primary">
 				<v-icon>mdi-cloud-upload</v-icon>
 			</upload-btn>
-		</v-speed-dial>
+		</v-speed-dial-->
 
 		<new-directory-dialog :shown.sync="showNewDirectory" :directory="directory" />
 		<confirm-dialog :shown.sync="startJobDialog.shown" :title="startJobDialog.title" :prompt="startJobDialog.prompt"
@@ -378,3 +378,11 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+.v-btn {
+	height: 60px !important;
+	font-size: 36px;
+	font-family: 'IBM Plex Mono', monospace !important;
+}
+</style>

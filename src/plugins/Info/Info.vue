@@ -175,7 +175,17 @@ export default Vue.extend ({
 </script>
 
 <style scoped>
-.rlp-cleanpurge #cleanpurgeid{
-	font-size: 36px !important;
+.rlp-cleanpurge :deep(label) {
+ font-size: 36px;
+  padding-left: 8px;
+}
+
+.rlp-cleanpurge :deep(span) {
+ width: 36px;
+}
+
+.rlp-cleanpurge :deep(.v-icon__svg) {
+ height: 36px;
+ width: 36px;
 }
 </style>
