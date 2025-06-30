@@ -56,16 +56,6 @@ export default initCollection(DwcPlugin, [
         )
     },
 	{
-        id: "ObjectModelBrowser",
-        name: "Object Model Browser",
-        author: "Duet3D Ltd",
-        version: "3.5.3",
-        loadDwcResources: () => import(
-            /* webpackChunkName: "ObjectModelBrowser" */
-            "./ObjectModelBrowser/index"
-        )
-    },
-	{
         id: "OnScreenKeyboard",
         name: "On-Screen Keyboard",
         author: "Duet3D Ltd",

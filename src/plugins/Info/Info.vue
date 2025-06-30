@@ -1,6 +1,16 @@
 <template>
 	<div>
-		<v-row id="homedCard">
+		<v-row>
+			<v-col>
+				<v-card id="rlp-control-panel" class="height: 300px">
+					<job-control-panel class="rlp-machine-job-control"/>
+					<div class="rlp-cleanpurge">
+						<v-checkbox id="cleanpurgeid" class="px-4" label="Run Clean Purge at End" v-model='cleanpurge' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
+					</div>
+				</v-card>
+			</v-col>
+		</v-row>
+		<v-row>
 			<v-col>
 				<v-card class="height: 600px">
 					<event-list />
@@ -41,6 +51,9 @@ export default Vue.extend ({
 		},
 		status() {
 			return store.state.machine.model.state.status;
+		},
+		cleanpurge() {
+			return this.global.get("cleanPurge");
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),
@@ -160,3 +173,9 @@ export default Vue.extend ({
 });
 
 </script>
+
+<style scoped>
+.rlp-cleanpurge #cleanpurgeid{
+	font-size: 36px !important;
+}
+</style>

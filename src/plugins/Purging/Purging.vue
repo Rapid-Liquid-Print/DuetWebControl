@@ -13,18 +13,18 @@
 			</v-col>
 		</v-row>
 
-		<v-row v-if="(status=='processing')||(status=='paused')||(status=='pausing')||(status=='resuming')||(status=='cancelling')||(status=='simulating')" class="justify-center">
+		<!--v-row v-if="(status=='processing')||(status=='paused')||(status=='pausing')||(status=='resuming')||(status=='cancelling')||(status=='simulating')" class="justify-center">
 			<v-col>
 				<v-card>
 					<job-control-panel class="rlp-machine-job-control"/>
 					<v-checkbox class="px-4" label="Run Clean Purge at End" v-model='cleanpurge' @change='sendCode("set global.cleanPurge = !global.cleanPurge")'></v-checkbox>
 				</v-card>
 			</v-col>
-		</v-row>
+		</v-row-->
 		
-		<v-row v-if="(status!='processing')&&(status!='paused')&&(status!='pausing')&&(status!='resuming')&&(status!='cancelling')&&(status!='simulating')" class="justify-center">
+		<v-row class="justify-center">
 			<v-col>
-				<v-card id="purging" :disabled='(status!="idle")||((global.get("mode")!=2)&&(global.get("mode")!=5))'>
+				<v-card id="purging">
 					<v-card-title>
 						<v-icon class="mr-2">
 							{{ purgeIcon }}
@@ -221,7 +221,7 @@ export default Vue.extend ({
 			return store.state.machine.model.state.status;
 		},
 		air() {
-			return store.state.machine.model.fans[0]?.actualValue;
+			return store.state.machine.model.state.gpOut[0]?.pwm;
 		},
 		...mapState(['selectedMachine']),
 		//...mapGetters(['isConnected', 'uiFrozen']),

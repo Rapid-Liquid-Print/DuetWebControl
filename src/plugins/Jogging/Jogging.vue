@@ -52,6 +52,20 @@
 								</div>
 							</v-col>
 						</v-row>
+						<v-row>
+							<v-col>
+								<div v-if="light==0">
+									<v-btn  class="rlp-utility" @click="lightSwitch" block>
+										LIGHT ON
+									</v-btn>
+								</div>
+								<div v-if="light==1">
+									<v-btn class="rlp-on" @click="lightSwitch" block>
+										LIGHT OFF
+									</v-btn>
+								</div>
+							</v-col>
+						</v-row>
 						<br>
 						<v-col>
 							<v-row>
@@ -140,7 +154,7 @@ export default Vue.extend ({
 			return store.state.machine.model.state.status;
 		},
 		light() {
-			return store.state.machine.model.fans[2]?.actualValue;
+			return store.state.machine.model.state.gpOut[5]?.pwm;
 		},
 		mode() {
 			return this.global.get("mode");
@@ -250,6 +264,14 @@ export default Vue.extend ({
 			}
 			else if (this.mode != 7) {
 				await this.sendCode('M98 P"/macros/unlock_machine.g"');
+			}
+		},
+		async lightSwitch() {
+			if (this.light == 0) {
+				await this.sendCode('M98 P"/macros/lights_on.g"');
+			}
+			else {
+				await this.sendCode('M98 P"/macros/lights_off.g"');
 			}
 		},
 		async homing(axis) {

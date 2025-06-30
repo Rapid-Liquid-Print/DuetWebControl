@@ -1,5 +1,5 @@
 <template>
-	<v-card>
+	<v-card class="rlp-machine-job-control-panel">
 		<v-card-title class="pb-1">
 			<v-icon small class="mr-1">mdi-wrench</v-icon>
 			{{ $t("panel.jobControl.caption") }}
@@ -134,3 +134,16 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style scoped>
+html,
+.v-card__title {
+	font-size: 36px !important;
+	font-family: 'IBM Plex Mono', monospace !important;
+}
+.v-btn {
+	height: 60px !important;
+	font-size: 36px;
+	font-family: 'IBM Plex Mono', monospace !important;
+}
+</style>
