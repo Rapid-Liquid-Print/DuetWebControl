@@ -136,7 +136,7 @@ export default Vue.extend({
 			refreshBed: true,
 			modes: ["unhomed", "homing", "idle", "moving", "estop", "purging", "status", "loading tank",],
 			modeCategories: ["waiting", "waiting", "waiting", "moving", "problem", "moving", "waiting", "waiting",],
-			extruders: ["A ", "B ", "A2", "B2"],
+			//extruders: ["A ", "B ", "A2", "B2"],
 		};
 	},
 	methods: {
@@ -164,7 +164,7 @@ export default Vue.extend({
 					document.msExitFullscreen();
 				}
 			}
-			this.toggleJobNameAnimation();
+			//this.toggleJobNameAnimation();
 		},
 		async refresh() {
 			if (!this.isConnected) {
@@ -222,8 +222,8 @@ export default Vue.extend({
 	height: 100vh;
 	background-color: #f4f4f4;
 	position: absolute;
-	top: -64px;
-	left: -256px;
+	top: -124px;
+	left: 0px;
 	z-index: 10;
 	font-family: 'IBM Plex Mono', monospace;
 	font-weight: 400;
@@ -244,7 +244,7 @@ export default Vue.extend({
 	z-index: 20;
 	width: 100%;
 	height: calc(100% + 20px);
-	animation: pulse-color 6s infinite linear;
+	box-shadow: inset 20px 0px 20px 0px var(--pulse-color), inset -20px 0px 20px 0px var(--pulse-color), inset 0px 20px 20px 0px var(--pulse-color);
 }
 
 .fullscreen-content.waiting {
@@ -292,8 +292,9 @@ ul.print-info {
 	list-style: none;
 	width: calc((95 - 56) / 95 * 100% / 2);
 	margin-bottom: 72px;
-	padding: 0 48px 0 72px;
-	font-size: x-large;
+	padding: 20 48px 0 45px;
+	font-size: x-small;
+	z-index: 30;
 }
 
 li {

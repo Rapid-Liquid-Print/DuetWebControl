@@ -12,7 +12,7 @@ registerRoute(RLPBackDisplay, {
       caption: 'RLP Back Display',
       translated: true,
       path: '/RLPBackDisplay',
-      viewport: "external"
+      viewport: "machine"
     }
   }
 });
