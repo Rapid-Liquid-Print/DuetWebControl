@@ -25,14 +25,14 @@
 						<v-row>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" @click="setupLoc" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' block>
+									<v-btn class="rlp-basic" @click="setupLoc" :disabled='(((status!="idle")||idlePurging)||(((mode!=2)&&(mode!=5)))&&(mode!=7))' block>
 										PURGE LOCATION
 									</v-btn>
 								</div>
 							</v-col>
 							<v-col>
 								<div>
-									<v-btn class="rlp-basic" :disabled='(((status!="idle")||idlePurging)||((mode!=2)))&&(mode!=7)' @click="goOrigin" block>
+									<v-btn class="rlp-basic" :disabled='(((status!="idle")||idlePurging)||((mode!=2)&&(mode!=5)))&&(mode!=7)' @click="goOrigin" block>
 										ORIGIN
 									</v-btn>
 								</div>
@@ -446,12 +446,12 @@ export default Vue.extend ({
 			await this.sendCode("M42 P4 S1");*/
 		},
 		async goOrigin() {
-			if (this.global.get("mode") == 5) {
+			if ((this.global.get("mode") == 5)||(this.global.get("mode") == 2)) {
 				await this.sendCode('M98 P"/macros/go_origin.g"');
 			}
-			else if (this.global.get("purge_loc") != true) {
+			/*else if (this.global.get("purge_loc") != true) {
 				this.sendCode('echo "Not currently in purge location."');
-			}
+			}*/
 			else {
 				this.sendCode('echo "Unable to go to origin. Please home or restart the machine."');
 			}

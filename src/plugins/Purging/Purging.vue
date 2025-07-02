@@ -87,10 +87,10 @@
 											<v-row v-for="extruder in extruders" :key="extruder" class="mx-4">
 												<div v-if="(extruder != 'A') && (extruder != 'B')">
 													<v-row>
-														<v-checkbox :label="extruder" v-model='adds[extruder][0]' @change="refreshAddText(extruder)"/>
+														<v-checkbox :label="extruder" v-model='adds[extruder][0]' @change="refreshAddText($event, extruder)"/>
 													</v-row>
 													<v-row v-if="adds[extruder][0]">
-															<v-text-field type="number" v-model="adds[extruder][2]" :id="adds[extruder].key" :placeholder="String(adds[extruder][1])" persistent-placeholder clearable @click:clear="refreshAddText(extruder)" @change="refreshAddText(extruder)" @blur="refreshAddText(extruder)"></v-text-field>
+															<v-text-field type="number" v-model="adds[extruder][2]" :id="adds[extruder].key" :placeholder="String(adds[extruder][1])" persistent-placeholder clearable @input="refreshAdd($event, extruder)"></v-text-field>
 													</v-row>
 												</div>
 											</v-row>
@@ -101,10 +101,10 @@
 										<br>
 										<div>
 											<v-row class="text-center mx-2">
-												<v-text-field type="number" id="ratInp1" value=1 label="A:" v-model="aInp" clearable @clear="refreshRatio" @change="refreshRatio" @blur="refreshRatio"></v-text-field>
+												<v-text-field type="number" id="ratInp1" value=1 label="A:" v-model="aInp" clearable @input="refreshRatio($event, 'A')"></v-text-field>
 											</v-row>
 											<v-row class="text-center mx-2">
-												<v-text-field type="number" id="ratInp2" value=1 label="B:" v-model="bInp" clearable @clear="refreshRatio" @change="refreshRatio" @blur="refreshRatio"></v-text-field>
+												<v-text-field type="number" id="ratInp2" value=1 label="B:" v-model="bInp" clearable @input="refreshRatio($event, 'B')"></v-text-field>
 											</v-row>
 										</div>
 										<br>
@@ -381,21 +381,51 @@ export default Vue.extend ({
 			}
 			this.makeRatioString();
 		},
-		refreshAdd(state, extruder) {
-			if(!state) {
+		refreshAdd(event, extruder) {
+			const value = parseFloat(event);
+			if (value == 0 || value == undefined) {
+				this.totAdditive = this.totAdditive - this.adds[extruder][1];
+				this.adds[extruder][1] = 0;
+				value = undefined;
+				this.makeRatioString();
+				return;
+			}
+			const newAdd = value / 100;
+			if (this.adds[extruder][1] != 0) {
+				this.totAdditive = this.totAdditive - this.adds[extruder][1] + newAdd;
+				this.adds[extruder][1] = newAdd;
+				this.makeRatioString();
+				return;
+			}
+			this.totAdditive = this.totAdditive + newAdd;
+			this.adds[extruder][1] = newAdd;
+			//event.target.value = undefined;
+			this.makeRatioString();
+			return;
+			/*if(!state) {
 				//this.adds[add][0] = false;
 				this.totAdditive = this.totAdditive - parseFloat(this.adds[extruder][1]);
 				this.adds[extruder][1] = 0;
-			}
+			}*/
 		},
-		refreshAddText(extruder) {
-			if ((this.adds[extruder][2] == "0") || (this.adds[extruder][2] == undefined) || (this.adds[extruder][2] == "") || !(this.adds[extruder][0])) {
+		refreshAddText(event, extruder) {
+			/*if ((this.adds[extruder][2] == "0") || (this.adds[extruder][2] == undefined) || (this.adds[extruder][2] == "") || !(this.adds[extruder][0])) {
 				this.totAdditive = this.totAdditive - this.adds[extruder][1];
 				this.adds[extruder][1] = 0;
 				this.adds[extruder][2] = "0";
 				this.makeRatioString();
 				return;
+			}*/
+			if (!event.target.checked) {
+				this.adds[extruder][0] = false;
+				this.adds[extruder][2] = "0";
+				this.adds[extruder][1] = 0;
+				this.totAdditive = this.totAdditive - this.adds[extruder][1];
+				return;
 			}
+			this.makeRatioString();
+			return;
+			/*
 			var newAdd = parseFloat(this.adds[extruder][2]) / 100;
 			if (this.adds[extruder][1] != 0) {
 				this.totAdditive = this.totAdditive - this.adds[extruder][1] + newAdd;
@@ -405,7 +435,7 @@ export default Vue.extend ({
 			}
 			this.totAdditive = this.totAdditive + newAdd;
 			this.adds[extruder][1] = newAdd;
-			this.makeRatioString();
+			this.makeRatioString();*/
 		},
 		makeRatioString() {		// THIS WILL NOT WORK FOR B2+ ADDITIVES THAT WON'T BE GOING INTO B
 			if (this.ratio != undefined) {
