@@ -651,7 +651,8 @@ export default Vue.extend ({
 			}
 			else {
 				await this.sendCode("G1 "+this.makeExtrusionString(350, false));
-				await this.sendCode("G1 E"+String(aS)+":"+String(bS));
+				//await this.sendCode("G1 E"+String(aS)+":"+String(bS));
+				await this.sendCode("G1 E-1:-1:-1:-1");
 			}
 			await this.sendCode("M400");
 				//await this.sendCode("M42 P3 S0");
@@ -692,7 +693,8 @@ export default Vue.extend ({
 				bS = -1*(4.4 / (tempRat+1));
 				console.log(this.makeExtrusionString(270, one));
 				await this.sendCode("G1 "+this.makeExtrusionString(270, one));
-				await this.sendCode("G1 E"+String(aS)+":"+String(bS));
+				//await this.sendCode("G1 E"+String(aS)+":"+String(bS));
+				await this.sendCode("G1 E-1:-1:-1:-1");
 			}
 			await this.sendCode("M400");
 			await this.sendCode('M98 P"/macros/cartridge_air_off.g"');
